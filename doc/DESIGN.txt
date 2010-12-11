@@ -1,0 +1,24 @@
+Fast log is a C/C++ logging library.
+
+Why would you want to use it?
+Because it is faster than any other logging library for C and C++ and is better
+for performing logging for real time applications.
+
+fastlog works using shared memory and is built on the assumption that the most crucial
+part of logging is the time it takes the logger code to log a message. The logger may
+be a real time thread and so the log action itself should take the minimal time possible.
+yslog
+
+Timing:
+=======
+syslog(3) calls time(2) every time you call it to record the original time of the message. This library does not do this since time(2) is a system call and hence too expensive for
+this logging library to use. There is an option to send the RDTSC instead (which is a register accessible quite fast from user space). However, this is an Intel feature only. If you know of similar features on other hardware platforms, please submit patches.
+
+Langugage:
+==========
+C was selected since this library should be usable from any C program.
+
+syslog compatibility:
+=====================
+This library should be a stand in for the syslog API (meaning that any program that
+uses syslog should be able to use it as it).
