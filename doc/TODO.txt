@@ -1,0 +1,3 @@
+- move this project over to github.
+- add the test that I have in my demos to this project.
+		(syslog_speed.cc).
