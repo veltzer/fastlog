@@ -2,23 +2,54 @@ Fast log is a C/C++ logging library.
 
 Why would you want to use it?
 Because it is faster than any other logging library for C and C++ and is better
-for performing logging for real time applications.
+for performing logging for user space real time applications or for any other type of application for that matter.
 
+For this purposes of this document here are some definitions:
+- client: is the piece of code that wants to log something.
+- server: is the piece of code that actually does the logging.
+
+
+Client speed:
+=============
 fastlog works using shared memory and is built on the assumption that the most crucial
 part of logging is the time it takes the logger code to log a message. The logger may
 be a real time thread and so the log action itself should take the minimal time possible.
-yslog
+A logging action by the client is therefor
 
-Timing:
-=======
-syslog(3) calls time(2) every time you call it to record the original time of the message. This library does not do this since time(2) is a system call and hence too expensive for
-this logging library to use. There is an option to send the RDTSC instead (which is a register accessible quite fast from user space). However, this is an Intel feature only. If you know of similar features on other hardware platforms, please submit patches.
+Server speed:
+=============
+The server logs the actual data to the system logger (syslog) using polling of the shared memory area. it uses
+yield when it finds that it has nothing to log.
+
+Thread safetiness:
+==================
+You can log using fastlog from multiple threads and multiple processes. The management data for the
+logging is stored in the shared memory and is protected by fast locks (spinlocks or futexes).
+
+Time stamps:
+============
+syslog(3) calls time(2) every time you call it to record the original time of the message. This library does not do this since time(2) is a system call and hence too expensive this logging library to use. There is an option to send the RDTSC instead (which is a register accessible quite fast from user space). However, this is an Intel feature only. If you know of similar features on other hardware platforms, please submit patches.
 
 Langugage:
 ==========
 C was selected since this library should be usable from any C program.
 
+Server or library:
+==================
+This project should be usable BOTH as a library that you can hook to and as a server.
+
+Threads, processes etc...
+=========================
+As a goal the logging library should be a process and not a thread. Why? Because I want it
+to stay alive after the original process has died. This is essential in case you are using
+the logging feature for debugging in which case you want to see the last messages that were
+sent before you died. It may be that this library could be used to spawn a thread as well.
+
 syslog compatibility:
 =====================
 This library should be a stand in for the syslog API (meaning that any program that
-uses syslog should be able to use it as it).
+uses syslog should be able to use it as is).
+
+Other projects of the same nature or resources:
+===============================================
+http://thekelleys.org.uk/syslog-async/
