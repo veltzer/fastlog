@@ -52,21 +52,6 @@
  * EXTRA_LIBS=-lpthread
  */
 
-// this emulates an async implementation
-pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;
-inline void my_syslog(const char* fmt,...) {
-	//pthread_mutex_lock(&fastmutex);
-	const unsigned int buffer_size=1024;
-	char buffer[buffer_size];
-	va_list args;
-	va_start(args, fmt);
-	vsnprintf(buffer, buffer_size, fmt, args);
-	va_end(args);
-	//memcpy(buffer,fmt,buffer_size);
-	//pthread_mutex_unlock(&fastmutex);
-}
-inline void my_syslog(const char* fmt,...) __attribute__((format(printf, 1, 2)));
-
 // a function to run another function in a high priority thread and wait for it to finish...
 void run_high_priority(void* (*func)(void*),void* val) {
 	struct sched_param myparam;
@@ -153,7 +138,7 @@ void* func(void* arg) {
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		my_syslog("this is a message %d", i);
+		fastlog_log("this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -163,7 +148,35 @@ void* func(void* arg) {
 	sleep(1);
 	
 	// now lets measure how long it would take to do nothing...
-	printf("doing %d empty methods\n",number);
+	printf("doing %d fastlog_mutex methods\n",number);
+	// start timing...
+	gettimeofday(&t1, NULL);
+	for (i = 0; i < number; i++) {
+		fastlog_mutex("this is a message %d", i);
+	}
+	// end timing...
+	gettimeofday(&t2, NULL);
+	// print timing...
+	printf("time in micro of one fastlog_mutex method: %lf\n", micro_diff(&t1,&t2)/(double)number);
+	// let io buffers be flushed...
+	sleep(1);
+	
+	// now lets measure how long it would take to do nothing...
+	printf("doing %d fastlog_copy methods\n",number);
+	// start timing...
+	gettimeofday(&t1, NULL);
+	for (i = 0; i < number; i++) {
+		fastlog_copy("this is a message %d", i);
+	}
+	// end timing...
+	gettimeofday(&t2, NULL);
+	// print timing...
+	printf("time in micro of one fastlog_copy method: %lf\n", micro_diff(&t1,&t2)/(double)number);
+	// let io buffers be flushed...
+	sleep(1);
+	
+	// now lets measure how long it would take to do nothing...
+	printf("doing %d fastlog_empty methods\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
@@ -172,7 +185,7 @@ void* func(void* arg) {
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
-	printf("time in micro of one empty method: %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("time in micro of one fastlog_empty method: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 

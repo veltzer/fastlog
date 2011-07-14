@@ -24,9 +24,16 @@ void fastlog_init(void);
 void fastlog_close(void);
 
 /*
- * An empty method for performance testing
+ * The real logging method. Currently unimplemented
+ */
+void fastlog_log(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+
+/*
+ * Methods for performance testing
  */
 void fastlog_empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+void fastlog_copy(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+void fastlog_mutex(const char* fmt,...) __attribute__((format(printf, 1, 2)));
 
 #ifdef __cplusplus
 } /* extern "C" */

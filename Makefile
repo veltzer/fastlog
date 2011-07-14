@@ -35,7 +35,7 @@ clean: $(ALL_DEPS)
 	rm -f $(OBJ) $(LIB) $(BIN)
 
 .PHONY: run
-run: $(ALL_DEPS)
+run: $(BIN) $(ALL_DEPS)
 	export LD_LIBRARY_PATH=. ; ./test/logging_speed
 
 # rules
