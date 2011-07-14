@@ -25,7 +25,7 @@ also listen to signals so that clients can tell it that log message are awaiting
 Thread safetiness:
 ==================
 You can log using fastlog from multiple threads and multiple processes. The management data for the
-logging is stored in the shared memory and is protected by fast locks (spinlocks or futexes).
+logging is stored in the shared memory and is protected by fast locks (spinlocks futexes or atomics).
 
 Time stamps:
 ============
@@ -46,11 +46,12 @@ to stay alive after the original process has died. This is essential in case you
 the logging feature for debugging in which case you want to see the last messages that were
 sent before you died. It may be that this library could be used to spawn a thread as well.
 
-syslog compatibility:
-=====================
-This library should be a stand in for the syslog API (meaning that any program that
-uses syslog should be able to use it as is).
-This is currently not the case.
+API:
+====
+- This library should be a stand in for the syslog API (meaning that any program that
+uses syslog should be able to use it as is). This is currently not the case.
+- The library has it's own API under the syslog API that allows you to have more power. Use it
+at your will.
 
 Other projects of the same nature or resources:
 ===============================================
