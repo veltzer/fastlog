@@ -1,6 +1,7 @@
-Fast log is a C/C++ logging library.
+Fast log is a C/C++ logging library and/or standalone server.
 
 Why would you want to use it?
+=============================
 Because it is faster than any other logging library for C and C++ and is better
 for performing logging for user space real time applications or for any other type of application for that matter.
 
@@ -8,18 +9,18 @@ For this purposes of this document here are some definitions:
 - client: is the piece of code that wants to log something.
 - server: is the piece of code that actually does the logging.
 
-
 Client speed:
 =============
 fastlog works using shared memory and is built on the assumption that the most crucial
 part of logging is the time it takes the logger code to log a message. The logger may
 be a real time thread and so the log action itself should take the minimal time possible.
-A logging action by the client is therefor
+A logging action by the client is therefore just copying the message to a ring buffer.
 
 Server speed:
 =============
 The server logs the actual data to the system logger (syslog) using polling of the shared memory area. it uses
-yield when it finds that it has nothing to log.
+yield and sleep when it finds that it has nothing to log. The polling speed can be controlled and it can
+also listen to signals so that clients can tell it that log message are awaiting in the ring buffer.
 
 Thread safetiness:
 ==================
@@ -49,7 +50,14 @@ syslog compatibility:
 =====================
 This library should be a stand in for the syslog API (meaning that any program that
 uses syslog should be able to use it as is).
+This is currently not the case.
 
 Other projects of the same nature or resources:
 ===============================================
 http://thekelleys.org.uk/syslog-async/
+	This project is interesting. It does not open an async thread to do the actuall logging
+	and so is unsuitable for a hard real time system.
+
+platforms:
+==========
+Currently only linux 2.6 is supported.

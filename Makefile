@@ -1,10 +1,17 @@
-SRC:=$(shell find lib -name "*.c")
+###############
+# paramaeters #
+###############
+
+DIR:=lib
+SRC:=$(shell find $(DIR) -name "*.c")
 OBJ:=$(addsuffix .o,$(basename $(SRC)))
 LIB:=libfastlog.so
 CC:=gcc
-CFLAGS:=-O2 -fpic
+CFLAGS:=-O2 -fpic -I$(DIR)
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
+
+# here we go...
 
 .PHONY: all
 all: $(LIB) $(ALL_DEPS)
@@ -22,6 +29,7 @@ debug: $(ALL_DEPS)
 clean: $(ALL_DEPS)
 	rm -f $(OBJ) $(LIB)
 
+# rules
 
 $(OBJ): %.o: %.c $(ALL_DEPS)
 	$(CC) -c $(CFLAGS) -o $@ $<
