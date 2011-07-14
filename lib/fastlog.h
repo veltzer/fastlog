@@ -1,6 +1,10 @@
 #ifndef __fastlog_h
 #define __fastlog_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Copyright Mark Veltzer <mark.veltzer@gmail.com>, 2011
  */
@@ -19,5 +23,13 @@ void fastlog_init(void);
  */
 void fastlog_close(void);
 
+/*
+ * An empty method for performance testing
+ */
+void fastlog_empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif // __fastlog_h
