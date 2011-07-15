@@ -1,7 +1,8 @@
-- move this project over to github.
-- add the test that I have in my demos to this project.
-		(syslog_speed.cc).
+doxygen
 - add doxygen support for this project.
+- document the fastlog interface.
+- add master (long) documentation to doxygen.
+- publicize the documentation for this somewhere (wiki on github ?!?).
 
 performance:
 currently it looks like file operations take 0.4 mic and copy (mine) take 0.3.
