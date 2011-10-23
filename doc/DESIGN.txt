@@ -56,8 +56,12 @@ at your will.
 Other projects of the same nature or resources:
 ===============================================
 http://thekelleys.org.uk/syslog-async/
-	This project is interesting. It does not open an async thread to do the actuall logging
+	This project is interesting.
+	It does not open an async thread to do the actuall logging
 	and so is unsuitable for a hard real time system.
+syslog-ng
+rsyslog
+kernel logging subsystem
 
 platforms:
 ==========
