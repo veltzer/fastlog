@@ -1,19 +1,43 @@
 ###############
 # paramaeters #
 ###############
-
+# should we show commands executed ?
+DO_MKDBG:=0
+# should we depend on the date of the makefile itself ?
+DO_MAKEDEPS?=1
+# folder where the sources are...
 DIR:=lib
-SRC:=$(shell find $(DIR) -name "*.c")
-OBJ:=$(addsuffix .o,$(basename $(SRC)))
-LIB:=libfastlog.so
+# name of the library to create
+LIBNAME:=fastlog
+# compiler to use...
 CC:=gcc
-CFLAGS:=-O2 -fpic -I$(DIR)
+# basic flags to use
+BASE_FLAGS=-O2 -fpic
+
+########
+# BODY #
+########
+ifeq ($(DO_MKDBG),1)
+Q=
+# we are not silent in this branch
+else # DO_MKDBG
+Q=@
+#.SILENT:
+endif # DO_MKDBG
+
+ALL_DEP:=
+ifeq ($(DO_MAKEDEPS),1)
+	ALL_DEP:=$(ALL_DEP) Makefile
+endif
+
+LIB:=lib$(LIBNAME).so
+SRC:=$(shell find $(DIR) -type f -and -name "*.c")
+OBJ:=$(addsuffix .o,$(basename $(SRC)))
+CFLAGS:=$(BASE_FLAGS) -I$(DIR)
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
 BIN:=test/logging_speed
-BINLD:=-lpthread -L. -lfastlog
-
-# here we go...
+BINLD:=-lpthread -L. -l$(LIBNAME)
 
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEPS)
@@ -21,7 +45,8 @@ all: $(LIB) $(BIN) $(ALL_DEPS)
 # binaries and libraries
 
 $(LIB): $(OBJ) $(ALL_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(OBJ)
+	$(info doing [$@])
+	$(Q)$(CC) $(LDFLAGS) -o $@ $(OBJ)
 
 # special targets
 
@@ -32,15 +57,19 @@ debug: $(ALL_DEPS)
 
 .PHONY: clean
 clean: $(ALL_DEPS)
-	rm -f $(OBJ) $(LIB) $(BIN)
+	$(info doing [$@])
+	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
 
 .PHONY: run
 run: $(BIN) $(ALL_DEPS)
-	export LD_LIBRARY_PATH=. ; ./test/logging_speed
+	$(info doing [$@])
+	$(Q)export LD_LIBRARY_PATH=. ; ./test/logging_speed
 
 # rules
 
 $(OBJ): %.o: %.c $(ALL_DEPS)
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(info doing [$@])
+	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 $(BIN): %: %.c $(ALL_DEPS)
-	$(CC) $(BINLD) $(CFLAGS) -o $@ $<
+	$(info doing [$@])
+	$(Q)$(CC) $(BINLD) $(CFLAGS) -o $@ $<
