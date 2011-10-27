@@ -1,4 +1,4 @@
-#include <fastlog.h>
+#include <fastlog.h> // our own header
 #include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3)
 #include <stdio.h> // for vsnprintf(3)
 #include <stdarg.h> // for va_start(3), va_end(3), va_list
@@ -25,7 +25,10 @@ void fastlog_copy(const char* fmt,...) {
 	va_end(args);
 }
 
+// this is the mutex we will use to protect the shared memory,
+// maybe we should use an atomic instead ?
 pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;
+
 void fastlog_mutex(const char* fmt,...) {
 	pthread_mutex_lock(&fastmutex);
 	const unsigned int buffer_size=1024;
