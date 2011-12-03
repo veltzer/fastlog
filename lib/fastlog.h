@@ -57,18 +57,19 @@ void fastlog_close(void);
 void fastlog_log(const char* fmt,...) __attribute__((format(printf, 1, 2)));
 
 /*
- * This method is blocking and you should avoid it in your
+ * This method is a little slow (it requires a syscall) and you should avoid it in your
  * time critical threads unless you have time to spare (at the end of a cycle
- * or what not). It asks the fastlogger to write whatever it has on it's plate.
+ * or what not). It asks the fastlogger to write whatever it has on it's plate by sending
+ * a signal. It DOES NOT wait for the logger to write, it just sends the signal.
  */
+void fastlog_sendwake();
 
 /*
- * Methods for performance testing
+ * This method is slow. It syncs with the logger (means waits until the logger has
+ * cought up). Don't use it in your real time sections unless you really want
+ * the logging to catch on and have no problem with the latency.
  */
-void fastlog_empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
-void fastlog_copy(const char* fmt,...) __attribute__((format(printf, 1, 2)));
-void fastlog_spin(const char* fmt,...) __attribute__((format(printf, 1, 2)));
-void fastlog_mutex(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+void fastlog_sync();
 
 #ifdef __cplusplus
 } /* extern "C" */
