@@ -3,7 +3,7 @@ Fast log is a C/C++ logging library and/or standalone server.
 Why would you want to use it?
 =============================
 Because it is faster than any other logging library for C and C++ and is better
-for performing logging for user space real time applications or for any other type of application for that matter.
+for performing logging for user space real time applications.
 
 For this purposes of this document here are some definitions:
 - client: is the piece of code that wants to log something.
@@ -64,6 +64,14 @@ http://thekelleys.org.uk/syslog-async/
 syslog-ng
 rsyslog
 kernel logging subsystem
+
+Comparison to various syslog implementations:
+=============================================
+- syslog implementations are designed to be durable. This means that they make
+the client wait until the logging action has finished. This is very good for things
+like databases, web server logs etc where loosing even a single entry is a problem.
+- this behaviour is very bad for real time systems.
+- the tradeoff is reliability vs speed.
 
 platforms:
 ==========

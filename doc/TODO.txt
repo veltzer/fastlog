@@ -22,3 +22,10 @@ In stages:
 	historgram until the user presses something.
 - use that program to make sure that the RDTSC is stable.
 - now measure my method calls using the RDTSC and not using gettimeofday.
+
+features:
+- support CPU affinity in the configuration of fastlog.
+- add a feature to warn at the client side of loosing messages
+	(head==tail).
+- add an option to configure fastlog from environment variables so
+	that recompilation will not be required.
