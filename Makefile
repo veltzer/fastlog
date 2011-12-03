@@ -12,7 +12,9 @@ LIBNAME:=fastlog
 # compiler to use...
 CC:=gcc
 # basic flags to use
-BASE_FLAGS=-O2 -fpic -Wall -Werror
+BASE_FLAGS:=-O2 -fpic -Wall -Werror
+# do you want debugging enabled?
+DO_DEBUG?=0
 
 ########
 # BODY #
@@ -24,6 +26,10 @@ else # DO_MKDBG
 Q=@
 #.SILENT:
 endif # DO_MKDBG
+
+ifeq ($(DO_DEBUG),1)
+BASE_FLAGS:=$(BASE_FLAGS) -g2
+endif # DO_DEBUG
 
 ALL_DEP:=
 ifeq ($(DO_MAKEDEPS),1)
@@ -65,11 +71,16 @@ run: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)export LD_LIBRARY_PATH=. ; ./test/logging_speed
 
+.PHONY: run_debug
+run_debug: $(BIN) $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)export LD_LIBRARY_PATH=. ; gdb ./test/logging_speed
+
 # rules
 
 $(OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
-$(BIN): %: %.c $(ALL_DEPS)
+$(BIN): %: %.c $(LIB) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)

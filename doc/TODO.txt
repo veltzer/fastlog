@@ -13,3 +13,12 @@ is a copy and in some cases OS call.
 What to do about it?
 In the test get the variance as well as the time. (min and max). This way I could
 show that mine is better.
+
+How to do it?
+More accurate measurements. Get it via RDTSC.
+
+In stages:
+- create a program that prints the stability of the RDTSC.
+	historgram until the user presses something.
+- use that program to make sure that the RDTSC is stable.
+- now measure my method calls using the RDTSC and not using gettimeofday.

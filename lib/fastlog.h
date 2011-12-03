@@ -1,7 +1,8 @@
 #ifndef __fastlog_h
 #define __fastlog_h
 
-#include<stdbool.h>
+#include <stdbool.h> // for bool
+#include <limits.h> // for PATH_MAX
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,10 +23,16 @@ typedef struct _fastlog_config {
 	bool rt;
 	bool priority_set;
 	int priority;
-	bool buffer_size_set;
-	int buffer_size;
+	bool buffer_msg_num_set;
+	int buffer_msg_num;
+	bool buffer_max_msg_set;
+	int buffer_max_msg;
 	bool sleep_time_set;
 	int sleep_time;
+	bool file_set;
+	char file[PATH_MAX];
+	// special destroy me
+	bool destroy_me;
 } fastlog_config;
 
 /*
@@ -39,7 +46,7 @@ void fastlog_config_init(fastlog_config*);
  * of the application. Failure to call this one will lead to weird behaviour
  * from fastlog_log.
  */
-void fastlog_init(const fastlog_config*);
+void fastlog_init(fastlog_config*);
 
 /*
  * Close the fastlog system. This will shut down the thread that does the logging.

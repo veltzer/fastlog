@@ -12,24 +12,24 @@ For this purposes of this document here are some definitions:
 Client speed:
 =============
 fastlog works using shared memory and is built on the assumption that the most crucial
-part of logging is the time it takes the logger code to log a message. The logger may
+part of logging is the time it takes the client code to log a message. The logger may
 be a real time thread and so the log action itself should take the minimal time possible.
-A logging action by the client is therefore just copying the message to a ring buffer.
+A logging action by the client is therefor just copying the message to a ring buffer.
 
 Server speed:
 =============
-The server logs the actual data to the system logger (syslog) using polling of the shared memory area. it uses
-yield and sleep when it finds that it has nothing to log. The polling speed can be controlled and it can
+The server logs the actual data to the system logger (syslog) or other means by polling of the shared memory area. it uses
+yield or sleep when it finds that it has nothing to log. The polling speed can be controlled and it can
 also listen to signals so that clients can tell it that log message are awaiting in the ring buffer.
 
 Thread safetiness:
 ==================
 You can log using fastlog from multiple threads and multiple processes. The management data for the
-logging is stored in the shared memory and is protected by fast locks (spinlocks futexes or atomics).
+logging is stored in the shared memory and is protected by fast atomic locks.
 
 Time stamps:
 ============
-syslog(3) calls time(2) every time you call it to record the original time of the message. This library does not do this since time(2) is a system call and hence too expensive this logging library to use. There is an option to send the RDTSC instead (which is a register accessible quite fast from user space). However, this is an Intel feature only. If you know of similar features on other hardware platforms, please submit patches.
+syslog(3) calls time(2) every time you call it to record the original time of the message. This library does not do this since time(2) is a system call and hence too expensive for fastlog to use. I may add a feature to send TSC instead (which is a register accessible quite fast from user space). However, this is an Intel feature only. If you know of similar features on other hardware platforms, please submit patches.
 
 Langugage:
 ==========
@@ -67,4 +67,5 @@ kernel logging subsystem
 
 platforms:
 ==========
-Currently only linux 2.6 is supported.
+Currently only linux 2.6 is supported and only on processors that support the atomic operations supported
+by gcc.

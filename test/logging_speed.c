@@ -13,40 +13,40 @@
  *
  * Notes:
  * - every messsage that I'm sending to syslog or to file has a number in it. This
- *   has two reasons: the most important is for syslog to actually log the message
- *   since if syslog gets two identical messages it does not log the second. Instead
- *   it waits for sometime and then says that the previous message repeated so and so
- *   times. The second reason is to include the printf like formatting code in the
- *   measurements.
+ *	has two reasons: the most important is for syslog to actually log the message
+ *	since if syslog gets two identical messages it does not log the second. Instead
+ *	it waits for sometime and then says that the previous message repeated so and so
+ *	times. The second reason is to include the printf like formatting code in the
+ *	measurements.
  * - the tested code runs in a high priority thread to make sure that we measure times
- *   correctly.
+ *	correctly.
  * - the fwrite implementation is fast because it does buffering. Maybe you are ok with
- *   that (you may lose data if you crash) and in that case you can use it.
+ *	that (you may lose data if you crash) and in that case you can use it.
  *
  * Results:
  * - by default you will find that syslog is much much slower than write.
- *   Output for example from this program:
- *   =====================================
- *   doing 1000 syslogs
- *   time in micro of one syslog: 55.897000
- *   doing 1000 writes
- *   time in micro of one write: 0.330000
- *   =====================================
- *   This is because rsyslogd in ubuntu is synchroneous. Most syslogd implementations are
- *   like that.
- * 
+ *	Output for example from this program:
+ *	=====================================
+ *	doing 1000 syslogs
+ *	time in micro of one syslog: 55.897000
+ *	doing 1000 writes
+ *	time in micro of one write: 0.330000
+ *	=====================================
+ *	This is because rsyslogd in ubuntu is synchroneous. Most syslogd implementations are
+ *	like that.
+ *
  * TODO:
  * - add three more test cases: open(2), write(2), close(2) with
- *   	- standard flags.
- *   	- O_ASYNC
- *   	- O_SYNC
+ *	- standard flags.
+ *	- O_ASYNC
+ *	- O_SYNC
  * - add another test with syslog which writes to a sysfs file instead.
  * - add another test case of asynchroneous syslog (damn it! how do I configure that?!?).
  * - explain the results in the text above.
  * - do better stats (min, max, variance and more).
  * - add some atomic operations to the fastlog checking (to emulate what will really be going on there).
  * - move the run_high_priority to my utils and do error checking in it. Print nice message to user
- *   about how to set right permissions if I cannot run in a high priority.
+ *	about how to set right permissions if I cannot run in a high priority.
  *
  * 					Mark Veltzer
  * EXTRA_LIBS=-lpthread
@@ -61,7 +61,7 @@ void* func(void* arg) {
 	// the name of this app
 	const char* myname="syslog_speed";
 	// number of messages to measure
-	const unsigned int number=10000;
+	const unsigned int number=10001;
 	// timevals to store before and after time...
 	struct timeval t1, t2;
 	// name of the test currently running
@@ -133,8 +133,9 @@ void* func(void* arg) {
 	// print timing...
 	printf("time in micro of one fastlog_log: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
+	fastlog_close();
 	sleep(1);
-	
+
 	// now lets measure how long it would take to do nothing...
 	printf("doing %d empty methods\n",number);
 	// start timing...
