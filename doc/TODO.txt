@@ -29,6 +29,9 @@ In stages:
 - now measure my method calls using the RDTSC and not using gettimeofday.
 
 features:
+- add option to use many fastlog instances in the same program.
+- add option to use syslog as the backend of fastlog.
+- add a config option which will accompany each message with the RDTSC.
 - support CPU affinity in the configuration of fastlog.
 - add a feature to warn at the client side of loosing messages
 	(head==tail).
