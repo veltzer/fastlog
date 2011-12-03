@@ -56,7 +56,7 @@ void fastlog_close(void) {
 }
 
 void fastlog_log(const char* fmt,...) {
-	char* pos=(char*)buffer+current_msg*MAX_MSG;
+	char* pos=((char*)buffer)+current_msg*MAX_MSG;
 	va_list args;
 	va_start(args, fmt);
 	vsnprintf(pos, MAX_MSG, fmt, args);

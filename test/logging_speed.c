@@ -119,6 +119,7 @@ void* func(void* arg) {
 
 	// now lets measure how long it would take to memcpy...
 	printf("doing %d fastlog_log\n",number);
+	fastlog_init(NULL);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
