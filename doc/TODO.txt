@@ -1,3 +1,8 @@
+- investigate the kernel printk system and find the sensitive
+	ring buffer issues. Learn whatever I can from it.
+	publicize them here and show how sensitive issues
+	were overcome.
+
 doxygen
 - add doxygen support for this project.
 - document the fastlog interface.
