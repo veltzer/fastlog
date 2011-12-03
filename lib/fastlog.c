@@ -56,7 +56,12 @@ void fastlog_close(void) {
 }
 
 void fastlog_log(const char* fmt,...) {
+	// atomically get my own position from current_msg
+	// (increase the current_msg and get the old value)
+	// this should be done in a loop in case of race with
+	// anot her thread doing the same
 	char* pos=((char*)buffer)+current_msg*MAX_MSG;
+	// write to my position
 	va_list args;
 	va_start(args, fmt);
 	vsnprintf(pos, MAX_MSG, fmt, args);
