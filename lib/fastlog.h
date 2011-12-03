@@ -18,6 +18,8 @@ extern "C" {
 typedef struct _fastlog_config {
 	bool thread_set;
 	bool thread;
+	bool rt_set;
+	bool rt;
 	bool priority_set;
 	int priority;
 	bool buffer_size_set;
