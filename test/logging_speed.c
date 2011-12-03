@@ -1,3 +1,4 @@
+#include <us_helper.h> // for micro_diff
 #include <syslog.h> // for openlog(3), syslog(3), closelog(3)
 #include <stdio.h> // for printf(3), fopen(3), fclose(3), fflush(3)
 #include <sys/time.h> // for gettimeofday(2)
@@ -5,7 +6,6 @@
 #include <pthread.h> // for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h> // for va_list, va_start, va_end
 
-#include <us_helper.h> // for micro_diff
 #include <fastlog.h>
 
 /*
@@ -51,22 +51,6 @@
  * 					Mark Veltzer
  * EXTRA_LIBS=-lpthread
  */
-
-// a function to run another function in a high priority thread and wait for it to finish...
-void run_high_priority(void* (*func)(void*),void* val) {
-	struct sched_param myparam;
-	pthread_attr_t myattr;
-	pthread_t mythread;
-	myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
-	pthread_attr_init(&myattr);
-	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
-	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
-	pthread_attr_setschedparam(&myattr, &myparam);
-	pthread_create(&mythread, &myattr, func, val);
-	void* retval;
-	pthread_join(mythread, &retval);
-	printf("thread joined and return val was %p\n",retval);
-}
 
 void* func(void* arg) {
 	printf("all time measurements are in micro seconds...\n");
@@ -134,7 +118,7 @@ void* func(void* arg) {
 	sleep(1);
 
 	// now lets measure how long it would take to memcpy...
-	printf("doing %d fastlogs\n",number);
+	printf("doing %d fastlog_log\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
@@ -143,7 +127,7 @@ void* func(void* arg) {
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
-	printf("time in micro of one fastlog (async): %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("time in micro of one fastlog_log: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 	
@@ -194,6 +178,6 @@ void* func(void* arg) {
 
 int main(int argc, char **argv, char **envp) {
 	//print_scheduling_consts();
-	run_high_priority(func,NULL);
+	run_high_priority(func,NULL,90);
 	return 0;
 }

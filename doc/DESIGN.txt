@@ -33,7 +33,9 @@ syslog(3) calls time(2) every time you call it to record the original time of th
 
 Langugage:
 ==========
-C was selected since this library should be usable from any C program.
+C was selected since this library should be usable from any C program. The library should also have the right extern declaration that
+will allow it to be used from any C++ program.
+Bindings for C++, other C++ logging libraries, other languages, will be left as TODO items for the future.
 
 Server or library:
 ==================

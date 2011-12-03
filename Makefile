@@ -2,7 +2,7 @@
 # paramaeters #
 ###############
 # should we show commands executed ?
-DO_MKDBG:=0
+DO_MKDBG?=0
 # should we depend on the date of the makefile itself ?
 DO_MAKEDEPS?=1
 # folder where the sources are...
@@ -12,7 +12,7 @@ LIBNAME:=fastlog
 # compiler to use...
 CC:=gcc
 # basic flags to use
-BASE_FLAGS=-O2 -fpic
+BASE_FLAGS=-O2 -fpic -Wall -Werror
 
 ########
 # BODY #
@@ -33,7 +33,7 @@ endif
 LIB:=lib$(LIBNAME).so
 SRC:=$(shell find $(DIR) -type f -and -name "*.c")
 OBJ:=$(addsuffix .o,$(basename $(SRC)))
-CFLAGS:=$(BASE_FLAGS) -I$(DIR)
+CFLAGS:=$(BASE_FLAGS) -I$(DIR) -Itest
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
 BIN:=test/logging_speed
@@ -72,4 +72,4 @@ $(OBJ): %.o: %.c $(ALL_DEPS)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 $(BIN): %: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)$(CC) $(BINLD) $(CFLAGS) -o $@ $<
+	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
