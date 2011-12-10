@@ -1,11 +1,12 @@
 #include <us_helper.h>
 #include <fastlog.h> // our own header
 #include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <stdio.h> // for vsnprintf(3), snprintf(3), fputs(3)
+//#include <stdio.h> // for vsnprintf(3), snprintf(3), fputs(3)
 #include <stdarg.h> // for va_start(3), va_end(3), va_list
 #include <stdlib.h> // for malloc(3), free(3), exit(3)
 #include <unistd.h> // for usleep(3)
 #include <syslog.h> // for syslog(3)
+#include <sys/mman.h> // for mlock(2)
 
 #define DO_WRITE
 //#define DO_INIT
@@ -83,7 +84,7 @@ void fastlog_init(fastlog_config* conf) {
 		conf->destroy_me=true;
 	}
 	if(!conf->thread_set) {
-		conf->thread=true;
+		conf->thread=false;
 	}
 	if(!conf->rt_set) {
 		conf->rt=false;
@@ -110,8 +111,16 @@ void fastlog_init(fastlog_config* conf) {
 		perror("malloc");
 		goto error;
 	}
+	int res=mlock(buffer,buflen);
+	if(res==-1) {
+		perror("mlock");
+		goto undo_malloc;
+	}
 	head=buffer;
 	tail=buffer;
+	if(!myconf->thread) {
+		return;
+	}
 	stop=false;
 	// open the output file
 	f=fopen(myconf->file,"w+");
@@ -121,7 +130,7 @@ void fastlog_init(fastlog_config* conf) {
 	}
 	// start the background thread
 	pthread_attr_t myattr;
-	int res=pthread_attr_init(&myattr);
+	res=pthread_attr_init(&myattr);
 	if(res) {
 		perror("pthread_attr_init");
 		goto undo_open;
@@ -158,16 +167,18 @@ void fastlog_close(void) {
 	#ifdef DO_INIT
 	init=false;
 	#endif // DO_INIT
-	stop=true;
-	int ret=pthread_join(worker,NULL);
-	if(ret) {
-		perror("pthread_join");
-		exit(1);
-	}
-	ret=fclose(f);
-	if(ret) {
-		perror("fclose");
-		exit(1);
+	if(myconf->thread) {
+		stop=true;
+		int ret=pthread_join(worker,NULL);
+		if(ret) {
+			perror("pthread_join");
+			exit(1);
+		}
+		ret=fclose(f);
+		if(ret) {
+			perror("fclose");
+			exit(1);
+		}
 	}
 	// no return value for error code from this one...
 	free(buffer);
@@ -204,9 +215,9 @@ void fastlog_log(const char* fmt,...) {
 		head=buffer;
 	}
 	// write to my position
-	va_list args;
-	va_start(args, fmt);
-	vsnprintf(pos, myconf->buffer_max_msg, fmt, args);
-	va_end(args);
+	__builtin_va_list args;
+	__builtin_va_start(args, fmt);
+	__builtin_vsnprintf(pos, myconf->buffer_max_msg, fmt, args);
+	__builtin_va_end(args);
 	#endif // DO_WRITE
 }

@@ -153,6 +153,22 @@ void* func(void* arg) {
 	return NULL;
 }
 
+typedef void (*vvfunc)(void);
+void run_test(vvfunc tf,const char* name) {
+	// timevals to store before and after time...
+	struct timeval t1, t2;
+	// number of messages to measure
+	const unsigned int number=10000;
+	// here comes the code
+	printf("doing test [%s]\n",name);
+	gettimeofday(&t1, NULL);
+	for (i = 0; i < number; i++) {
+		vvfunc("this is a message %d", i);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)number);
+}
+
 int main(int argc, char **argv, char **envp) {
 	//print_scheduling_consts();
 	run_high_priority(func,NULL,90);
