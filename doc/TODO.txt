@@ -15,6 +15,16 @@ This is wrong since in my case there is no variance and in the file case there
 is variance since the file case which uses user land buffers in most cases there
 is a copy and in some cases OS call.
 
+- only store the pointer and the arguments and don't do the printf formatting in
+my code and thus cut the logging speed even more. Formatting the message will be
+the responsibility of the viewer.
+Is this well justified? Couldn't the string, in case of bug, be overwritten?
+Answers:
+	- even if I store the string after formatting it could be overwritten.
+	- the strings are stored in read only memory. (are they?!? I need to
+	check that!)
+	- speed is the shit for fastlog.
+
 What to do about it?
 In the test get the variance as well as the time. (min and max). This way I could
 show that mine is better.
