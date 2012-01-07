@@ -142,11 +142,11 @@ void fastlog_log(fastlog_config* conf,const char* fmt,...) {
 	// thread since it always grabs the tail.
 	// The race here is always with other loggers.
 	/*
-	char* cur=__sync_fetch_and_add(&head,conf->buffer_max_msg);
-	if(head>=conf->buffer_len) {
-		__sync_bool_compare_and_swap(&head,cur+1,cur+1-conf->buffer_msg_num);
+	char* pos=__sync_fetch_and_add(&conf->head,conf->buffer_max_msg);
+	if(conf->head>=conf->buffer_len) {
+		__sync_bool_compare_and_swap(&conf->head,cur+1,cur+1-conf->buffer_msg_num);
 	}
-	cur%=conf->buffer_msg_num;
+	cur%=conf->conf->buffer_msg_num;
 	char* pos=buffer+cur*conf->buffer_max_msg;
 	*/
 	#ifdef DO_WRITE
