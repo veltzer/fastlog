@@ -1,20 +1,31 @@
+research:
+=========
 - investigate the kernel printk system and find the sensitive
 	ring buffer issues. Learn whatever I can from it.
 	publicize them here and show how sensitive issues
 	were overcome.
 
-doxygen
-- add doxygen support for this project.
-- document the fastlog interface.
-- add master (long) documentation to doxygen.
-- publicize the documentation for this somewhere (wiki on github ?!?).
+documentation
+=============
+- doxygen
+	- add doxygen support for this project.
+	- document the fastlog interface.
+	- add master (long) documentation to doxygen.
+	- publicize the documentation for this somewhere (wiki on github ?!?).
+- add a web site for this project created via pdmt and python mako templating.
 
 performance:
-currently it looks like file operations take 0.4 mic and copy (mine) take 0.3.
+============
+- turn the logging function to be inline to reduce it's speed even more.
+- currently it looks like file operations take 0.4 mic and copy (mine) take 0.3.
 This is wrong since in my case there is no variance and in the file case there
 is variance since the file case which uses user land buffers in most cases there
 is a copy and in some cases OS call.
-
+What to do about it?
+	In the test get the variance as well as the time. (min and max). This way I could
+	show that mine is better.
+How to do it?
+	More accurate measurements. Get it via RDTSC.
 - only store the pointer and the arguments and don't do the printf formatting in
 my code and thus cut the logging speed even more. Formatting the message will be
 the responsibility of the viewer.
@@ -25,20 +36,16 @@ Answers:
 	check that!)
 	- speed is the shit for fastlog.
 
-What to do about it?
-In the test get the variance as well as the time. (min and max). This way I could
-show that mine is better.
-
-How to do it?
-More accurate measurements. Get it via RDTSC.
-
-In stages:
+RDTSC work:
+===========
 - create a program that prints the stability of the RDTSC.
 	historgram until the user presses something.
 - use that program to make sure that the RDTSC is stable.
 - now measure my method calls using the RDTSC and not using gettimeofday.
+- find out about the new RDTSC in 64 bit Intel and see how to get that.
 
 features:
+=========
 - add option to use many fastlog instances in the same program.
 - add option to use syslog as the backend of fastlog.
 - add a config option which will accompany each message with the RDTSC.
@@ -47,3 +54,9 @@ features:
 	(head==tail).
 - add an option to configure fastlog from environment variables so
 	that recompilation will not be required.
+
+packaging:
+==========
+- create a tar.bz2 package for this tool.
+- create a deb package for this tool.
+- add a release script for this package.

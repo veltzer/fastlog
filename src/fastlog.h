@@ -17,22 +17,28 @@ extern "C" {
  */
 
 typedef struct _fastlog_config {
-	bool thread_set;
+	// these options are to be configured by the user
 	bool thread;
-	bool rt_set;
 	bool rt;
-	bool priority_set;
 	int priority;
-	bool buffer_msg_num_set;
-	int buffer_msg_num;
-	bool buffer_max_msg_set;
-	int buffer_max_msg;
-	bool sleep_time_set;
 	int sleep_time;
-	bool file_set;
-	char file[PATH_MAX];
+	// buffer related
+	bool mlock;
+	int buffer_msg_num;
+	int buffer_max_msg;
+	int buflen;
+	char* buffer;
+	char* head;
+	char* tail;
+
 	// special destroy me
 	bool destroy_me;
+	// stop the background thread
+	volatile bool stop;
+	// the pthread worker
+	pthread_t worker;
+	// the file the background thread writes to
+	FILE* file;
 } fastlog_config;
 
 /*
@@ -54,14 +60,14 @@ void fastlog_init(fastlog_config*);
  * shuts down. Do not call this method at the critical section of your real time
  * application.
  */
-void fastlog_close(void);
+void fastlog_close(fastlog_config*);
 
 /*
  * The real logging method. This method can be used even in time critical threads
  * as it never goes to the kernel and works fast. This is the real workhorse
  * of the fastlog system.
  */
-void fastlog_log(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+void fastlog_log(fastlog_config*,const char* fmt,...) __attribute__((format(printf, 2, 3)));
 
 /*
  * This method is a little slow (it requires a syscall) and you should avoid it in your

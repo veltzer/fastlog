@@ -122,18 +122,20 @@ void* func(void* arg) {
 
 	// now lets measure how long it would take to memcpy...
 	printf("doing %d fastlog_log\n",number);
-	fastlog_init(NULL);
+	fastlog_config conf;
+	fastlog_config_init(&conf);
+	fastlog_init(&conf);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fastlog_log("this is a message %d", i);
+		fastlog_log(&conf,"this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
 	printf("time in micro of one fastlog_log: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
-	fastlog_close();
+	fastlog_close(&conf);
 	sleep(1);
 
 	// now lets measure how long it would take to do nothing...
@@ -154,18 +156,17 @@ void* func(void* arg) {
 }
 
 typedef void (*vvfunc)(const char* format,...);
-void run_test(vvfunc tf,const char* name) {
+void run_test(vvfunc func,const char* name) {
 	// timevals to store before and after time...
 	struct timeval t1, t2;
 	// number of messages to measure
 	const unsigned int number=10000;
-	// counter to run
-	int i;
 	// here comes the code
 	printf("doing test [%s]\n",name);
+	// NOTE: only execution code follows this
 	gettimeofday(&t1, NULL);
-	for(i=0;i<number;i++) {
-		tf("this is a message %d",i);
+	for(int i=0;i<number;i++) {
+		func("this is a message %d",i);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)number);

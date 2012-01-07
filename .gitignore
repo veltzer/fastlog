@@ -1,9 +1,8 @@
-# git-ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
+# the shared libraries which are created
 *.so
-*/*.o
+# the object files which are created
+*.o
+# the binaries which are created
 test/logging_speed
+# documentation created via doxygen 
+html/*

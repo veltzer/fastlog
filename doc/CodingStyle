@@ -1,0 +1,7 @@
+This is the coding style for this project:
+==========================================
+- only C stuff! (see design document).
+- curly braces:
+	if(foo) {
+	}
+- c99 - yes (-std=gnu99 to gcc).

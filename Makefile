@@ -6,13 +6,13 @@ DO_MKDBG?=0
 # should we depend on the date of the makefile itself ?
 DO_MAKEDEPS?=1
 # folder where the sources are...
-DIR:=lib
+SRCDIR:=src
 # name of the library to create
 LIBNAME:=fastlog
 # compiler to use...
 CC:=gcc
 # basic flags to use
-BASE_FLAGS:=-O2 -fpic -Wall -Werror
+BASE_FLAGS:=-O2 -fpic -Wall -Werror -std=gnu99
 # do you want debugging enabled?
 DO_DEBUG?=0
 
@@ -37,9 +37,9 @@ ifeq ($(DO_MAKEDEPS),1)
 endif
 
 LIB:=lib$(LIBNAME).so
-SRC:=$(shell find $(DIR) -type f -and -name "*.c")
+SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
 OBJ:=$(addsuffix .o,$(basename $(SRC)))
-CFLAGS:=$(BASE_FLAGS) -I$(DIR) -Itest
+CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
 BIN:=test/logging_speed
