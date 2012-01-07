@@ -57,15 +57,17 @@ uses syslog should be able to use it as is). This is currently not the case.
 - The library has it's own API under the syslog API that allows you to have more power. Use it
 at your will.
 
-Other projects of the same nature or resources:
-===============================================
+Other related projects:
+=======================
 http://thekelleys.org.uk/syslog-async/
 	This project is interesting.
 	It does not open an async thread to do the actuall logging
 	and so is unsuitable for a hard real time system.
 syslog-ng
 rsyslog
-kernel logging subsystem
+kernel logging subsystem (printk)
+
+Out of all of these the kernel logging system is the closest in nature to this system.
 
 Comparison to various syslog implementations:
 =============================================
@@ -77,5 +79,4 @@ like databases, web server logs etc where loosing even a single entry is a probl
 
 platforms:
 ==========
-Currently only linux 2.6 is supported and only on processors that support the atomic operations supported
-by gcc.
+Currently only linux 2.6 is supported and only on processors that support the atomic operations supported by gcc.

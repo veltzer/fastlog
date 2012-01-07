@@ -135,13 +135,6 @@ void fastlog_close(fastlog_config* conf) {
 }
 
 void fastlog_log(fastlog_config* conf,const char* fmt,...) {
-	#ifdef DO_INIT
-	if(!init) {
-		printf("called before init or after close\n");
-		exit(1);
-	}
-	#endif // DO_INIT
-	#ifdef DO_WRITE
 	// atomically get my own position from head
 	// (increase the head and get the old value)
 	// apparently there is no need for a loop around this
@@ -156,15 +149,18 @@ void fastlog_log(fastlog_config* conf,const char* fmt,...) {
 	cur%=conf->buffer_msg_num;
 	char* pos=buffer+cur*conf->buffer_max_msg;
 	*/
-	char* pos=conf->head;
+	#ifdef DO_WRITE
+	char* pos __attribute__((unused))=conf->head;
 	conf->head+=conf->buffer_max_msg;
 	if(conf->head==conf->buffer+conf->buflen) {
 		conf->head=conf->buffer;
 	}
 	// write to my position
+	/*
 	__builtin_va_list args;
 	__builtin_va_start(args, fmt);
 	__builtin_vsnprintf(pos, conf->buffer_max_msg, fmt, args);
 	__builtin_va_end(args);
+	*/
 	#endif // DO_WRITE
 }

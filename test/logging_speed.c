@@ -61,7 +61,7 @@ void* func(void* arg) {
 	// the name of this app
 	const char* myname="syslog_speed";
 	// number of messages to measure
-	const unsigned int number=10001;
+	const unsigned int number=10000;
 	// timevals to store before and after time...
 	struct timeval t1, t2;
 	// name of the test currently running
