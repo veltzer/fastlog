@@ -67,6 +67,12 @@ syslog-ng
 rsyslog
 kernel logging subsystem (printk)
 
+Microsoft WPP software
+http://msdn.microsoft.com/en-us/library/windows/hardware/ff556204(v=vs.85).aspx
+Microsoft WMI event tracing
+http://msdn.microsoft.com/en-us/library/windows/hardware/ff566350(v=vs.85).aspx
+http://en.wikipedia.org/wiki/Windows_software_trace_preprocessor
+
 Out of all of these the kernel logging system is the closest in nature to this system.
 
 Comparison to various syslog implementations:

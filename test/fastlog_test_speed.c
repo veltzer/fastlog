@@ -52,12 +52,13 @@
  * EXTRA_LIBS=-lpthread
  */
 
+void empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
 void empty(const char* fmt,...) {
 }
 
 void* func(void* arg) {
-	printf("all time measurements are in micro seconds...\n");
 	print_scheduling_info();
+	printf("all time measurements are in micro seconds...\n");
 	// the name of this app
 	const char* myname="syslog_speed";
 	// number of messages to measure
@@ -138,8 +139,20 @@ void* func(void* arg) {
 	fastlog_close(&conf);
 	sleep(1);
 
+	// now lets measure how long it would take to do nothing (with method call)...
+	printf("doing %d empty (non-inlined) methods\n",number);
+	// start timing...
+	gettimeofday(&t1, NULL);
+	for (i = 0; i < number; i++) {
+		fastlog_empty("this is a message %d", i);
+	}
+	// end timing...
+	gettimeofday(&t2, NULL);
+	// print timing...
+	printf("time in micro of one empty (non-inlined) method: %lf\n", micro_diff(&t1,&t2)/(double)number);
+
 	// now lets measure how long it would take to do nothing...
-	printf("doing %d empty methods\n",number);
+	printf("doing %d empty (inlined) methods\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
@@ -148,7 +161,7 @@ void* func(void* arg) {
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
-	printf("time in micro of one empty method: %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("time in micro of one empty (inlined) method: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 

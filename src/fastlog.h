@@ -3,6 +3,8 @@
 
 #include <stdbool.h> // for bool
 #include <limits.h> // for PATH_MAX
+#include <pthread.h> // for pthread_t
+#include <stdio.h> // for FILE
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,8 +33,6 @@ typedef struct _fastlog_config {
 	char* head;
 	char* tail;
 
-	// special destroy me
-	bool destroy_me;
 	// stop the background thread
 	volatile bool stop;
 	// the pthread worker
@@ -83,6 +83,10 @@ void fastlog_sendwake();
  * the logging to catch on and have no problem with the latency.
  */
 void fastlog_sync();
+/*
+ * An empty method for performance testing.
+ */
+void fastlog_empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
 
 #ifdef __cplusplus
 } /* extern "C" */

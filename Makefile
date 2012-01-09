@@ -42,8 +42,8 @@ OBJ:=$(addsuffix .o,$(basename $(SRC)))
 CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
-BIN:=test/logging_speed
-BINLD:=-lpthread -L. -l$(LIBNAME)
+BIN:=bin/fastlog_test_speed bin/fastlog_test_basic bin/fastlog_test_crash
+BINLD:=-L. -l$(LIBNAME) -lpthread
 
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEPS)
@@ -69,18 +69,19 @@ clean: $(ALL_DEPS)
 .PHONY: run
 run: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; ./test/logging_speed
+	$(Q)export LD_LIBRARY_PATH=. ; ./bin/fastlog_test_speed
 
 .PHONY: run_debug
 run_debug: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; gdb ./test/logging_speed
+	$(Q)export LD_LIBRARY_PATH=. ; gdb ./bin/fastlog_test_speed
 
 # rules
 
 $(OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
-$(BIN): %: %.c $(LIB) $(ALL_DEPS)
+$(BIN): bin/%: test/%.c $(LIB) $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)

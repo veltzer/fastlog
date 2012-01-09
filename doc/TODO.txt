@@ -1,3 +1,8 @@
+now:
+====
+create a "crash" app to test the crashing of fastlog.
+
+
 research:
 =========
 - investigate the kernel printk system and find the sensitive

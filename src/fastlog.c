@@ -50,16 +50,9 @@ void fastlog_config_init(fastlog_config* conf) {
 	conf->buffer_msg_num=1000;
 	conf->buffer_max_msg=1024;
 	conf->buffer=NULL;
-	// operational
-	conf->destroy_me=false;
 }
 
 void fastlog_init(fastlog_config* conf) {
-	if(conf==NULL) {
-		conf=(fastlog_config*)malloc(sizeof(fastlog_config));
-		fastlog_config_init(conf);
-		conf->destroy_me=true;
-	}
 	conf->buflen=conf->buffer_msg_num*conf->buffer_max_msg;
 	conf->buffer=(char*)malloc(conf->buflen);
 	if(conf->buffer==NULL) {
@@ -129,9 +122,6 @@ void fastlog_close(fastlog_config* conf) {
 	}
 	// no return value for error code from this one...
 	free(conf->buffer);
-	if(conf->destroy_me) {
-		free(conf);
-	}
 }
 
 void fastlog_log(fastlog_config* conf,const char* fmt,...) {
@@ -163,4 +153,7 @@ void fastlog_log(fastlog_config* conf,const char* fmt,...) {
 	__builtin_va_end(args);
 	*/
 	#endif // DO_WRITE
+}
+
+void fastlog_empty(const char* fmt,...) {
 }
