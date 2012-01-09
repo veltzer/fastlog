@@ -1,0 +1,9 @@
+links of interest to this project:
+man 5 elf
+man 1 readelf
+man 1 objdump
+libelf
+libelfsh
+http://garr.dl.sourceforge.net/project/elftoolchain/Documentation/libelf-by-example/20101106/libelf-by-example.pdf
+http://sourceforge.net/apps/trac/elftoolchain/#GettingStarted
+https://fedorahosted.org/elfutils/
