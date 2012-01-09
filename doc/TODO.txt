@@ -1,7 +1,6 @@
 now:
 ====
-create a "crash" app to test the crashing of fastlog.
-
+- start creatig the app to retrive the log from the core.
 
 research:
 =========

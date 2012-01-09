@@ -1,1 +1,5 @@
-This is the change log file for fastlog...
+Mark Veltzer <mark.veltzer@gmail.com> 9/1/2012
+	added fastlog_test_crash
+	added fastlog_test_basic
+	new layout for binary files for tests
+	fastlog_test_crash now dumps core
