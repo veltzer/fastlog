@@ -1,5 +1,6 @@
 now:
 ====
+- write a small test to experiment with var args.
 - start creatig the app to retrive the log from the core.
 
 research:
