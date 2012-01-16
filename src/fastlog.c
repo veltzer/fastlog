@@ -146,6 +146,8 @@ void fastlog_log(fastlog_config* conf,const char* fmt,...) {
 		conf->head=conf->buffer;
 	}
 	// write to my position
+	// simulate the copy (not accurate)
+	memcpy(pos,&fmt,8);
 	/*
 	__builtin_va_list args;
 	__builtin_va_start(args, fmt);
