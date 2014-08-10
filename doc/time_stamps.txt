@@ -1,0 +1,6 @@
+This document deals with the issue of time stamps in the logging system
+
+- we need an option to go to the os for a time stamp.
+- but this option is too slow.
+- use RDTSC should also be an option.
+- use a better register on newer Intel systems should also be an option (on IA64).
