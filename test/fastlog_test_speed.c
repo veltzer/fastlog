@@ -5,6 +5,7 @@
 #include <assert.h> // for assert(3)
 #include <pthread.h> // for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h> // for va_list, va_start, va_end
+#include <sched_utils.h> // for sched_print_info, sched_print_table, sched_run_priority
 
 #include <fastlog.h>
 
@@ -57,7 +58,7 @@ void empty(const char* fmt,...) {
 }
 
 void* func(void* arg) {
-	print_scheduling_info();
+	sched_print_info();
 	printf("all time measurements are in micro seconds...\n");
 	// the name of this app
 	const char* myname="syslog_speed";
@@ -186,7 +187,7 @@ void run_test(vvfunc func,const char* name) {
 }
 
 int main(int argc, char **argv, char **envp) {
-	//print_scheduling_consts();
-	run_high_priority(func,NULL,90);
+	//sched_print_table();
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return 0;
 }
