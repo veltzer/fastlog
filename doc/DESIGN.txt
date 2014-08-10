@@ -14,7 +14,7 @@ Client speed:
 fastlog works using shared memory and is built on the assumption that the most crucial
 part of logging is the time it takes the client code to log a message. The logger may
 be a real time thread and so the log action itself should take the minimal time possible.
-A logging action by the client is therefor just copying the message to a ring buffer.
+A logging action by the client is therefore just copying the message to a ring buffer.
 Actually, even printf formatting is not done by the client as the pointer to the format
 string is recorded and the argument and they are stored. Nothing else is.
 

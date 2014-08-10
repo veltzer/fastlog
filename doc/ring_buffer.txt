@@ -1,0 +1,6 @@
+Big questions:
+Do we want a single buffer or one per thread?
+If we have one per thread then the log time of the client goes down even further
+since there is no need for atomic operations.
+But then the thread that does the actual logging gets to do the hard work of
+looking at all the threads rings and printing the messages in the right order.
