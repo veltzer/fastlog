@@ -10,6 +10,9 @@ import subprocess # for check_call
 packs=[
 	'doxygen',
 	'libcpufreq-dev',
+
+	# templating
+	'templar',
 ]
 
 args=['sudo','apt-get','install','--assume-yes']
