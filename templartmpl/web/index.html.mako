@@ -17,6 +17,9 @@
 		<p>
 		This is a paragraph about fastlog.
 		</p>
+		<p>
+			To donate to <b>${tdefs.project_name}</b> please use the following button:
+		</p>
 		${tdefs.project_paypal_donate_button_snipplet}
 		<p>
 			Copyright ${tdefs.personal_fullname}, ${tdefs.project_copyright_years}
