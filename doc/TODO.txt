@@ -1,5 +1,9 @@
 now:
 ====
+- don't bind fastlog to the thread.
+	Allow to launch a thread but don't force launching one.
+- allocate ram for fastlog using mmap and not malloc.
+	maybe even have a option for memfd_create
 - move this project to templar and make a github.io website for it.
 - write a small test to experiment with var args.
 - start creating the app to retrive the log from the shared memory.

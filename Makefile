@@ -75,12 +75,12 @@ clean_me: $(ALL_DEPS)
 .PHONY: run
 run: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; ./out/bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=out/lib ; ./out/bin/fastlog_test_speed
 
 .PHONY: run_debug
 run_debug: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; gdb ./out/bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=out/lib ; gdb ./out/bin/fastlog_test_speed
 
 # rules
 

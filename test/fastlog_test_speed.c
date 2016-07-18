@@ -105,7 +105,7 @@ void* func(void* arg) {
 	// let io buffers be flushed...
 	sleep(1);
 
-	test="regular file operations (buffred, non flushed, non synchronized)";
+	test="regular file operations (buffered, non flushed, non synchronized)";
 	f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
 	printf("doing %d writes\n",number);
