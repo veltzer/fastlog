@@ -3,6 +3,15 @@
 # the object files which are created
 *.o
 # the binaries which are created
-bin/*
+/bin/*
 # documentation created via doxygen 
-html/*
+/html/*
+
+# generated stuff
+/out/
+/web/
+
+# python stuff
+*.pyc
+*.pyo
+__pycache__

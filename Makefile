@@ -1,6 +1,7 @@
-###############
-# paramaeters #
-###############
+include /usr/share/templar/make/Makefile
+##############
+# PARAMETERS #
+##############
 # should we show commands executed ?
 DO_MKDBG:=0
 # should we depend on the date of the makefile itself ?
@@ -56,13 +57,13 @@ $(LIB): $(OBJ) $(ALL_DEPS)
 
 # special targets
 
-.PHONY: debug
-debug: $(ALL_DEPS)
+.PHONY: debug_me
+debug_me: $(ALL_DEPS)
 	$(info SRC is $(SRC))
 	$(info OBJ is $(OBJ))
 
-.PHONY: clean
-clean: $(ALL_DEPS)
+.PHONY: clean_me
+clean_me: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
 

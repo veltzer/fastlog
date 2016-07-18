@@ -1,7 +1,8 @@
 now:
 ====
+- move this project to templar and make a github.io website for it.
 - write a small test to experiment with var args.
-- start creatig the app to retrive the log from the core.
+- start creating the app to retrive the log from the shared memory.
 
 research:
 =========
