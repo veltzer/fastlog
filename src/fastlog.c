@@ -47,7 +47,7 @@ void fastlog_config_init(fastlog_config* conf) {
 	conf->sleep_time=5;
 	// buffer parameters
 	conf->mlock=false;
-	conf->buffer_msg_num=1000;
+	conf->buffer_msg_num=1024;
 	conf->buffer_max_msg=1024;
 	conf->buffer=NULL;
 }

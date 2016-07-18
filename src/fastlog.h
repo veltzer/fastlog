@@ -83,6 +83,7 @@ void fastlog_sendwake();
  * the logging to catch on and have no problem with the latency.
  */
 void fastlog_sync();
+
 /*
  * An empty method for performance testing.
  */

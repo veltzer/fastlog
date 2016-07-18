@@ -1,15 +1,9 @@
-# the shared libraries which are created
-*.so
-# the object files which are created
-*.o
-# the binaries which are created
-/bin/*
 # documentation created via doxygen 
 /html/*
 
 # generated stuff
-/out/
-/web/
+/out
+/web
 
 # python stuff
 *.pyc

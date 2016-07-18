@@ -41,14 +41,14 @@ ifeq ($(DO_MAKEDEPS),1)
 	ALL_DEP:=$(ALL_DEP) Makefile
 endif
 
-LIB:=lib$(LIBNAME).so
+LIB:=out/lib/lib$(LIBNAME).so
 SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
-OBJ:=$(addsuffix .o,$(basename $(SRC)))
+OBJ:=$(addprefix out/obj/, $(addsuffix .o,$(basename $(SRC))))
 CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
 LDFLAGS:=-shared -fpic
 ALL_DEPS:=Makefile
-BIN:=bin/fastlog_test_speed bin/fastlog_test_basic bin/fastlog_test_crash
-BINLD:=-L. -l$(LIBNAME) -lpthread
+BIN:=out/bin/fastlog_test_speed out/bin/fastlog_test_basic out/bin/fastlog_test_crash
+BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEPS)
@@ -57,6 +57,7 @@ all: $(LIB) $(BIN) $(ALL_DEPS)
 
 $(LIB): $(OBJ) $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(OBJ)
 
 # special targets
@@ -74,19 +75,20 @@ clean_me: $(ALL_DEPS)
 .PHONY: run
 run: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; ./bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=. ; ./out/bin/fastlog_test_speed
 
 .PHONY: run_debug
 run_debug: $(BIN) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=. ; gdb ./bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=. ; gdb ./out/bin/fastlog_test_speed
 
 # rules
 
-$(OBJ): %.o: %.c $(ALL_DEPS)
+$(OBJ): out/obj/%.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
-$(BIN): bin/%: test/%.c $(LIB) $(ALL_DEPS)
+$(BIN): out/bin/%: test/%.c $(LIB) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
