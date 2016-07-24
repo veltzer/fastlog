@@ -53,8 +53,12 @@
  * EXTRA_LIBS=-lpthread
  */
 
-void empty(const char* fmt,...) __attribute__((format(printf, 1, 2)));
-void empty(const char* fmt,...) {
+void empty_noinline(const char* fmt,...) __attribute__((format(printf, 1, 2), noinline));
+void empty_noinline(const char* fmt,...) {
+}
+
+void empty_inline(const char* fmt,...) __attribute__((format(printf, 1, 2)));
+void empty_inline(const char* fmt,...) {
 }
 
 void* func(void* arg) {
@@ -124,20 +128,19 @@ void* func(void* arg) {
 
 	// now lets measure how long it would take to memcpy...
 	printf("doing %d fastlog_log\n",number);
-	fastlog_config conf;
-	fastlog_config_init(&conf);
-	fastlog_init(&conf);
+	fastlog_config* conf=fastlog_config_init();
+	fastlog_init(conf);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fastlog_log(&conf,"this is a message %d", i);
+		fastlog_log(conf,"this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
 	printf("time in micro of one fastlog_log: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
-	fastlog_close(&conf);
+	fastlog_close(conf);
 	sleep(1);
 
 	// now lets measure how long it would take to do nothing (with method call)...
@@ -145,7 +148,7 @@ void* func(void* arg) {
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fastlog_empty("this is a message %d", i);
+		empty_noinline("this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -157,7 +160,7 @@ void* func(void* arg) {
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		empty("this is a message %d", i);
+		empty_inline("this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);

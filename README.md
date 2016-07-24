@@ -26,4 +26,4 @@ Some of the goals of the project:
 	It gives you an API to clear the log so that it doesn't become congested.
 * maybe a kernel module to give you contiguous space to log to?
 
-	Mark Veltzer <mark@veltzer.net>, 2010-2016
+	Mark Veltzer <mark.veltzer@gmail.com>, 2010-2016
