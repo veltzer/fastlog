@@ -3,7 +3,6 @@
 
 # generated stuff
 /out
-/web
 
 # python stuff
 *.pyc
