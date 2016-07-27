@@ -16,10 +16,6 @@ CC:=gcc
 BASE_FLAGS:=-O2 -fpic -Wall -Werror -std=gnu99
 # do you want debugging enabled?
 DO_DEBUG:=0
-# what is the web folder ?
-WEB_DIR:=../fastlog-gh-pages
-# which folders to copy for web?
-COPY_FOLDERS:=web static
 
 ########
 # BODY #
@@ -92,12 +88,3 @@ $(BIN): out/bin/%: test/%.c $(LIB) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
-
-# web page
-.PHONY: install
-install: $(ALL) $(ALL_DEP)
-	$(info doing [$@])
-	$(Q)rm -rf $(WEB_DIR)/*
-	$(Q)for folder in $(COPY_FOLDERS); do cp -r $$folder $(WEB_DIR); done
-	$(Q)cp support/redirector.html $(WEB_DIR)/index.html
-	cd $(WEB_DIR); git commit -a -m "new version"; git push
