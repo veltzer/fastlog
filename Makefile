@@ -16,6 +16,8 @@ CC:=gcc
 BASE_FLAGS:=-O2 -fpic -Wall -Werror -std=gnu99
 # do you want debugging enabled?
 DO_DEBUG:=0
+# do you want to do tools?
+DO_TOOLS:=1
 
 ########
 # BODY #
@@ -35,7 +37,11 @@ endif # DO_DEBUG
 ALL_DEP:=
 ifeq ($(DO_MAKEDEPS),1)
 	ALL_DEP:=$(ALL_DEP) Makefile
-endif
+endif # DO_MAKEDEPS
+
+ifeq ($(DO_TOOLS),1)
+	ALL_DEP+=tools.stamp
+endif # DO_TOOLS
 
 LIB:=out/lib/lib$(LIBNAME).so
 SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
@@ -48,6 +54,11 @@ BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEPS)
+
+tools.stamp: apt.yaml
+	$(info doing [$@])
+	$(Q)templar_cmd install_deps
+	$(Q)make_helper touch-mkdir $@
 
 # binaries and libraries
 

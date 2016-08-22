@@ -1,8 +1,9 @@
 # documentation created via doxygen 
-/html/*
+/html
 
 # generated stuff
 /out
+/tools.stamp
 
 # python stuff
 *.pyc
