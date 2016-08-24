@@ -8,7 +8,7 @@
 #include <syslog.h> // for syslog(3)
 #include <sys/mman.h> // for mlock(2)
 
-#define DO_WRITE
+//#define DO_WRITE
 
 typedef struct _fastlog_config {
 	// this is our own pointer for fastlog internal use
@@ -80,17 +80,25 @@ static void* fastlog_worker(void* vconf) {
 	return NULL;
 }
 
+static inline int _fastlog_config_init(fastlog_config* fc) {
+	fc->mlock=false;
+	fc->buffer_msg_num=1024;
+	fc->buffer_max_msg=1024;
+	fc->buffer=NULL;
+	return 0;
+}
+
 int fastlog_config_init(fastlog_config_t* conf) {
-	*conf=malloc(sizeof(fastlog_config));
-	conf->mlock=false;
-	conf->buffer_msg_num=1024;
-	conf->buffer_max_msg=1024;
-	conf->buffer=NULL;
+	fastlog_config* fc=(fastlog_config*)malloc(sizeof(fastlog_config));
+	_fastlog_config_init(fc);
+	*conf=fc;
 	return 0;
 }
 
 int fastlog_config_destroy(fastlog_config_t* conf) {
-	free(*conf);
+	fastlog_config* fc=*conf;
+	free(fc);
+	return 0;
 }
 
 int fastlog_thread_config_init(fastlog_thread_config* conf) {
@@ -102,34 +110,36 @@ int fastlog_thread_config_init(fastlog_thread_config* conf) {
 }
 
 int fastlog_init(const fastlog_config_t* conf) {
-	fastlog_config_t* conf_to_use;
+	fastlog_config* fc;
 	if(conf==NULL) {
-		fastlog_config_t config;
-		fastlog_config_init(&config);
+		fastlog_config config;
+		_fastlog_config_init(&config);
+		fc=&config;
 	} else {
+		fc=*conf;
 	}
-	conf->buflen=conf->buffer_msg_num*conf->buffer_max_msg;
-	conf->buffer=(char*)malloc(conf->buflen);
-	if(conf->buffer==NULL) {
+	fc->buflen=fc->buffer_msg_num*fc->buffer_max_msg;
+	fc->buffer=(char*)malloc(fc->buflen);
+	if(fc->buffer==NULL) {
 		perror("malloc");
 		goto error;
 	}
-	if(conf->mlock) {
-		int res=mlock(conf->buffer,conf->buflen);
+	if(fc->mlock) {
+		int res=mlock(fc->buffer,fc->buflen);
 		if(res==-1) {
 			perror("mlock");
 			goto undo_malloc;
 		}
 	}
 	// set the head and tail
-	conf->head=conf->buffer;
-	conf->tail=conf->buffer;
+	fc->head=fc->buffer;
+	fc->tail=fc->buffer;
 	return 0;
 
 	/* error handling */
 undo_malloc:
 	// no error value from free
-	free(conf->buffer);
+	free(fc->buffer);
 error:
 	return 0;
 }

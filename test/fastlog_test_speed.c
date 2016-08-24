@@ -128,19 +128,18 @@ void* func(void* arg) {
 
 	// now lets measure how long it would take to memcpy...
 	printf("doing %d fastlog_log\n",number);
-	fastlog_config* conf=fastlog_config_init();
-	fastlog_init(conf);
+	fastlog_init(NULL);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fastlog_log(conf,"this is a message %d", i);
+		fastlog_log("this is a message %d", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
 	printf("time in micro of one fastlog_log: %lf\n", micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
-	fastlog_close(conf);
+	fastlog_close();
 	sleep(1);
 
 	// now lets measure how long it would take to do nothing (with method call)...
