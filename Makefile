@@ -48,12 +48,12 @@ SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
 OBJ:=$(addprefix out/obj/, $(addsuffix .o,$(basename $(SRC))))
 CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
 LDFLAGS:=-shared -fpic
-ALL_DEPS:=Makefile
+ALL_DEP:=Makefile
 BIN:=out/bin/fastlog_test_speed out/bin/fastlog_test_basic out/bin/fastlog_test_crash
 BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 
 .PHONY: all
-all: $(LIB) $(BIN) $(ALL_DEPS)
+all: $(LIB) $(BIN) $(ALL_DEP)
 
 tools.stamp: apt.yaml
 	$(info doing [$@])
@@ -62,7 +62,7 @@ tools.stamp: apt.yaml
 
 # binaries and libraries
 
-$(LIB): $(OBJ) $(ALL_DEPS)
+$(LIB): $(OBJ) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(OBJ)
@@ -70,32 +70,32 @@ $(LIB): $(OBJ) $(ALL_DEPS)
 # special targets
 
 .PHONY: debug_me
-debug_me: $(ALL_DEPS)
+debug_me: $(ALL_DEP)
 	$(info SRC is $(SRC))
 	$(info OBJ is $(OBJ))
 
 .PHONY: clean_me
-clean_me: $(ALL_DEPS)
+clean_me: $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
 
 .PHONY: run
-run: $(BIN) $(ALL_DEPS)
+run: $(BIN) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)export LD_LIBRARY_PATH=out/lib ; ./out/bin/fastlog_test_speed
 
 .PHONY: run_debug
-run_debug: $(BIN) $(ALL_DEPS)
+run_debug: $(BIN) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)export LD_LIBRARY_PATH=out/lib ; gdb ./out/bin/fastlog_test_speed
 
 # rules
 
-$(OBJ): out/obj/%.o: %.c $(ALL_DEPS)
+$(OBJ): out/obj/%.o: %.c $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
-$(BIN): out/bin/%: test/%.c $(LIB) $(ALL_DEPS)
+$(BIN): out/bin/%: test/%.c $(LIB) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
