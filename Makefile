@@ -36,7 +36,7 @@ endif # DO_DEBUG
 
 ALL_DEP:=
 ifeq ($(DO_MAKEDEPS),1)
-	ALL_DEP:=$(ALL_DEP) Makefile
+ALL_DEP:=$(ALL_DEP) Makefile
 endif # DO_MAKEDEPS
 
 ifeq ($(DO_TOOLS),1)
