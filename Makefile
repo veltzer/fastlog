@@ -40,7 +40,7 @@ ALL_DEP:=$(ALL_DEP) Makefile
 endif # DO_MAKEDEPS
 
 ifeq ($(DO_TOOLS),1)
-	ALL_DEP+=tools.stamp
+ALL_DEP+=tools.stamp
 endif # DO_TOOLS
 
 LIB:=out/lib/lib$(LIBNAME).so
@@ -55,7 +55,7 @@ BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEP)
 
-tools.stamp: apt.yaml
+tools.stamp: templardefs/deps.py
 	$(info doing [$@])
 	$(Q)templar_cmd install_deps
 	$(Q)make_helper touch-mkdir $@
