@@ -55,11 +55,6 @@ BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 .PHONY: all
 all: $(LIB) $(BIN) $(ALL_DEP)
 
-tools.stamp: templardefs/deps.py
-	$(info doing [$@])
-	$(Q)templar_cmd install_deps
-	$(Q)make_helper touch-mkdir $@
-
 # binaries and libraries
 
 $(LIB): $(OBJ) $(ALL_DEP)
