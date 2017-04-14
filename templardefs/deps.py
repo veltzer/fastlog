@@ -8,7 +8,7 @@ def populate(d):
         'libcpufreq-dev',
     ]
 
-def getdeps():
+def get_deps():
     return [
         __file__, # myself
     ]
