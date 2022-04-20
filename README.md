@@ -28,4 +28,4 @@ It gives you an API to clear the log so that it doesn"t become congested.
 * maybe a kernel module to give you contiguous space to log to?
 
 
-	Mark Veltzer <mark.veltzer@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
+	Mark Veltzer <mark.veltzer@gmail.com>, 2010 - 2022

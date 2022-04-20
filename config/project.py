@@ -61,9 +61,6 @@ It gives you an API to clear the log so that it doesn"t become congested.
 # deb
 deb_package=False
 
-project_copyright_years = ", ".join(
-    map(str, range(int(project_year_started), datetime.datetime.now().year + 1)))
-
 project_paypal_donate_button_id = "0"
 project_paypal_donate_button_snipplet = """<form action="https://www.paypal.com/cgi-bin/webscr"
     method="post" target="_top">
@@ -73,3 +70,9 @@ project_paypal_donate_button_snipplet = """<form action="https://www.paypal.com/
 alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>""".format(project_paypal_donate_button_id)
+
+import datetime
+project_year_now=str(datetime.datetime.now().year)
+project_copyright_years=", ".join(
+    map(str, range(int(project_year_started), int(project_year_now)+1)))
+project_copyright_years_short = f"{project_year_started} - {project_year_now}"
