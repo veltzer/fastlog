@@ -11,16 +11,16 @@ project_website_source=f"https://github.com/{project_github_username}/{project_n
 project_website_git=f"git://github.com/{project_github_username}/{project_name}.git"
 project_paypal_donate_button_id="ZA2DTK4LL9LEC"
 project_google_analytics_tracking_id="UA-80897396-1"
-project_google_analytics_snipplet = """<script type="text/javascript">
+project_google_analytics_snipplet = f"""<script type="text/javascript">
 (function(i,s,o,g,r,a,m){{i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){{
 (i[r].q=i[r].q||[]).push(arguments)}},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 }})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");
 
-ga("create", "{0}", "auto");
+ga("create", "{project_google_analytics_tracking_id}", "auto");
 ga("send", "pageview");
 
-</script>""".format(project_google_analytics_tracking_id)
+</script>"""
 project_long_description="Fastlog is a C/C++ library for fast/realtime logging"
 # keywords to put on html pages or for search, dont put the name of the project or my details
 # as they will be added automatically...
@@ -62,14 +62,14 @@ It gives you an API to clear the log so that it doesn"t become congested.
 deb_package=False
 
 project_paypal_donate_button_id = "0"
-project_paypal_donate_button_snipplet = """<form action="https://www.paypal.com/cgi-bin/webscr"
+project_paypal_donate_button_snipplet = f"""<form action="https://www.paypal.com/cgi-bin/webscr"
     method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="{0}">
+<input type="hidden" name="hosted_button_id" value="{project_google_analytics_tracking_id}">
 <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" name="submit"
 alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>""".format(project_paypal_donate_button_id)
+</form>"""
 
 import datetime
 project_year_now=str(datetime.datetime.now().year)
