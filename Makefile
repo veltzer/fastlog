@@ -19,8 +19,20 @@ DO_TOOLS:=1
 DO_ALLDEP:=1
 
 ########
-# BODY #
+# code #
 ########
+# where is the output folder ?
+OUT:=out
+LIB:=$(OUT)/lib/lib$(LIBNAME).so
+SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
+OBJ:=$(addprefix $(OUT)/obj/, $(addsuffix .o,$(basename $(SRC))))
+CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
+LDFLAGS:=-shared -fpic
+BIN:=$(OUT)/bin/fastlog_test_speed $(OUT)/bin/fastlog_test_basic $(OUT)/bin/fastlog_test_crash
+BINLD:=-L$(OUT)/lib -l$(LIBNAME) -lpthread
+# what is the stamp file for the tools?
+TOOLS:=$(OUT)/tools.stamp
+
 ifeq ($(DO_MKDBG),1)
 Q=
 # we are not silent in this branch
@@ -33,26 +45,24 @@ ifeq ($(DO_DEBUG),1)
 BASE_FLAGS:=$(BASE_FLAGS) -g2
 endif # DO_DEBUG
 
-# dependency on the makefile itself
 ifeq ($(DO_ALLDEP),1)
 .EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
 endif
 
 ifeq ($(DO_TOOLS),1)
-.EXTRA_PREREQS+=tools.stamp
-endif # DO_TOOLS
+.EXTRA_PREREQS+=$(TOOLS)
+endif
 
-LIB:=out/lib/lib$(LIBNAME).so
-SRC:=$(shell find $(SRCDIR) -type f -and -name "*.c")
-OBJ:=$(addprefix out/obj/, $(addsuffix .o,$(basename $(SRC))))
-CFLAGS:=$(BASE_FLAGS) -I$(SRCDIR) -Itest
-LDFLAGS:=-shared -fpic
-BIN:=out/bin/fastlog_test_speed out/bin/fastlog_test_basic out/bin/fastlog_test_crash
-BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
-
+#########
+# rules #
+#########
 .PHONY: all
 all: $(LIB) $(BIN)
 	@true
+
+$(TOOLS): requirements.txt
+	$(info doing [$@])
+	$(Q)pymakehelper touch_mkdir $@
 
 # binaries and libraries
 
@@ -63,34 +73,40 @@ $(LIB): $(OBJ)
 
 # special targets
 
-.PHONY: debug_me
-debug_me:
+.PHONY: debug
+debug:
 	$(info SRC is $(SRC))
 	$(info OBJ is $(OBJ))
+	$(info TOOLS is $(TOOLS))
 
-.PHONY: clean_me
-clean_me:
+.PHONY: clean
+clean:
 	$(info doing [$@])
 	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
+
+.PHONY: clean_hard
+clean_hard:
+	$(info doing [$@])
+	$(Q)git clean -qffxd
 
 .PHONY: run
 run: $(BIN)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=out/lib ; ./out/bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=$(OUT)/lib ; ./$(OUT)/bin/fastlog_test_speed
 
 .PHONY: run_debug
 run_debug: $(BIN)
 	$(info doing [$@])
-	$(Q)export LD_LIBRARY_PATH=out/lib ; gdb ./out/bin/fastlog_test_speed
+	$(Q)export LD_LIBRARY_PATH=$(OUT)/lib ; gdb ./$(OUT)/bin/fastlog_test_speed
 
 ############
 # patterns #
 ############
-$(OBJ): out/obj/%.o: %.c
+$(OBJ): $(OUT)/obj/%.o: %.c
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
-$(BIN): out/bin/%: test/%.c $(LIB)
+$(BIN): $(OUT)/bin/%: test/%.c $(LIB)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
