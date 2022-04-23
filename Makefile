@@ -52,6 +52,7 @@ BINLD:=-Lout/lib -l$(LIBNAME) -lpthread
 
 .PHONY: all
 all: $(LIB) $(BIN)
+	@true
 
 # binaries and libraries
 
