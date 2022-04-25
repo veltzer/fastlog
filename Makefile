@@ -32,6 +32,13 @@ BIN:=$(OUT)/bin/fastlog_test_speed $(OUT)/bin/fastlog_test_basic $(OUT)/bin/fast
 BINLD:=-L$(OUT)/lib -l$(LIBNAME) -lpthread
 # what is the stamp file for the tools?
 TOOLS:=$(OUT)/tools.stamp
+ALL:=
+
+ifeq ($(DO_TOOLS),1)
+.EXTRA_PREREQS+=$(TOOLS)
+ALL+=$(TOOLS)
+endif # DO_TOOLS
+
 
 ifeq ($(DO_MKDBG),1)
 Q=
@@ -49,15 +56,13 @@ ifeq ($(DO_ALLDEP),1)
 .EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
 endif # DO_ALLDEP
 
-ifeq ($(DO_TOOLS),1)
-.EXTRA_PREREQS+=$(TOOLS)
-endif # DO_TOOLS
+ALL+=$(LIB) $(BIN)
 
 #########
 # rules #
 #########
 .PHONY: all
-all: $(LIB) $(BIN)
+all: $(ALL)
 	@true
 
 $(TOOLS): packages.txt config/deps.py
@@ -72,8 +77,6 @@ $(LIB): $(OBJ)
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(OBJ)
 
-# special targets
-
 .PHONY: debug
 debug:
 	$(info SRC is $(SRC))
@@ -83,7 +86,7 @@ debug:
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
+	$(Q)rm -f $(OBJ) $(LIB) $(BIN) $(TOOLS)
 
 .PHONY: clean_hard
 clean_hard:
