@@ -62,6 +62,7 @@ all: $(LIB) $(BIN)
 
 $(TOOLS): packages.txt config/deps.py
 	$(info doing [$@])
+	$(Q)xargs -a packages.txt sudo apt-get -y install
 	$(Q)pymakehelper touch_mkdir $@
 
 # binaries and libraries
