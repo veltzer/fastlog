@@ -60,7 +60,7 @@ endif # DO_TOOLS
 all: $(LIB) $(BIN)
 	@true
 
-$(TOOLS): requirements.txt
+$(TOOLS): packages.txt config/deps.py
 	$(info doing [$@])
 	$(Q)pymakehelper touch_mkdir $@
 
