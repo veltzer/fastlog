@@ -34,7 +34,7 @@ project_keywords=[
 "fastlog",
 ]
 project_license="GPLV3"
-project_year_started="2010"
+project_year_started=2010
 project_description=f"""
 Fast log is a fast system logger, faster than syslog or file based.
 It is designed for Linux based, user space, high performance, real time
