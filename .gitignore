@@ -3,7 +3,7 @@
 
 # generated stuff
 /out
-/tools.stamp
+*.stamp
 
 # python stuff
 *.pyc
