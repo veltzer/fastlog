@@ -13,8 +13,6 @@ CC:=gcc
 BASE_FLAGS:=-O2 -fpic -Wall -Werror -std=gnu99
 # do you want debugging enabled?
 DO_DEBUG:=0
-# do you want to do tools?
-DO_TOOLS:=1
 # do you want dependency on the Makefile itself ?
 DO_ALLDEP:=1
 
@@ -31,14 +29,7 @@ LDFLAGS:=-shared -fpic
 BIN:=$(OUT)/bin/fastlog_test_speed $(OUT)/bin/fastlog_test_basic $(OUT)/bin/fastlog_test_crash
 BINLD:=-L$(OUT)/lib -l$(LIBNAME) -lpthread
 # what is the stamp file for the tools?
-TOOLS:=$(OUT)/tools.stamp
 ALL:=
-
-ifeq ($(DO_TOOLS),1)
-.EXTRA_PREREQS+=$(TOOLS)
-ALL+=$(TOOLS)
-endif # DO_TOOLS
-
 
 ifeq ($(DO_MKDBG),1)
 Q=
@@ -65,11 +56,6 @@ ALL+=$(LIB) $(BIN)
 all: $(ALL)
 	@true
 
-$(TOOLS): packages.txt config/deps.py
-	$(info doing [$@])
-	$(Q)xargs -a packages.txt sudo apt-get -y install
-	$(Q)pymakehelper touch_mkdir $@
-
 # binaries and libraries
 
 $(LIB): $(OBJ)
@@ -81,12 +67,11 @@ $(LIB): $(OBJ)
 debug:
 	$(info SRC is $(SRC))
 	$(info OBJ is $(OBJ))
-	$(info TOOLS is $(TOOLS))
 
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)rm -f $(OBJ) $(LIB) $(BIN) $(TOOLS)
+	$(Q)rm -f $(OBJ) $(LIB) $(BIN)
 
 .PHONY: clean_hard
 clean_hard:
