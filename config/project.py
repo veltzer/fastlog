@@ -25,13 +25,13 @@ project_long_description="Fastlog is a C/C++ library for fast/realtime logging"
 # keywords to put on html pages or for search, dont put the name of the project or my details
 # as they will be added automatically...
 project_keywords=[
-"realtime",
-"rt",
-"logging",
-"syslog",
-"syslog-ng",
-"rsyslog",
-"fastlog",
+    "realtime",
+    "rt",
+    "logging",
+    "syslog",
+    "syslog-ng",
+    "rsyslog",
+    "fastlog",
 ]
 project_license="GPLV3"
 project_year_started=2010
