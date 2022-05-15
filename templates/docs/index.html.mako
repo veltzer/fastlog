@@ -1,7 +1,7 @@
 <%!
     import config.project
     import user.personal
-    import config.git
+    import config.version
 %><!DOCTYPE html>
 <html>
 	<head>
@@ -15,7 +15,7 @@
 	<body>
 		<h1>Welcome to the <i>${config.project.project_name}</i> web site</h1>
 
-		<p>current version is ${config.git.last_tag}</p>
+		<p>current version is ${config.version.version_str}</p>
 
 		<h2>Fastlog...</h2>
 		<p>
