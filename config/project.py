@@ -8,7 +8,7 @@ keywords=[
     "rsyslog",
     "fastlog",
 ]
-license="GPLV3"
+license_type="GPLV3"
 description_long=f"""
 Fast log is a fast system logger, faster than syslog or file based.
 It is designed for Linux based, user space, high performance, real time
