@@ -1,14 +1,19 @@
 <%!
+    import pydmt.helpers.project
+    import pydmt.helpers.misc
+    import pydmt.helpers.signature
     import config.project
     import user.personal
-    import config.version
-%>${config.project.project_name}
-${'=' * len(config.project.project_name)}
+    line = "=" * len(pydmt.helpers.project.get_name())
+%>${pydmt.helpers.project.get_name()}
+${line}
 
-version: ${config.version.version_str}
+version: ${pydmt.helpers.misc.get_version_str()}
 
-${config.project.project_description}
+description: ${config.project.description_short}
 
-${config.project.project_long_description}
+% if hasattr(config.project, "description_long"):
+${config.project.description_long}
+% endif
 
-	${user.personal.personal_origin}, ${config.project.project_copyright_years_short}
+	${user.personal.origin}, ${pydmt.helpers.signature.get_copyright_years_long()}

@@ -3,6 +3,8 @@ fastlog
 
 version: 0.0.1
 
+description: Fastlog is a C/C++ library for fast/realtime logging
+
 
 Fast log is a fast system logger, faster than syslog or file based.
 It is designed for Linux based, user space, high performance, real time
@@ -26,6 +28,4 @@ It gives you an API to clear the log so that it doesn"t become congested.
 * maybe a kernel module to give you contiguous space to log to?
 
 
-Fastlog is a C/C++ library for fast/realtime logging
-
-	Mark Veltzer <mark.veltzer@gmail.com>, 2010 - 2022
+	Mark Veltzer <mark.veltzer@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
