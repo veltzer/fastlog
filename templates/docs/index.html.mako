@@ -1,33 +1,30 @@
 <%!
+    import pydmt.helpers.project
+    import pydmt.helpers.misc
+    import pydmt.helpers.signature
     import config.project
     import user.personal
-    import config.version
 %><!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>${config.project.project_name}</title>
+		<title>${pydmt.helpers.project.get_name()}</title>
 		<link rel="shortcut icon" href="../static/favicon.ico"/>
-		<meta name="Description" content="${config.project.project_long_description}"/>
-		<meta name="Keywords" content="${user.personal.personal_fullname}, ${user.personal.personal_slug}, ${config.project.project_name}, ${', '.join(config.project.project_keywords)}"/>
-		${config.project.project_google_analytics_snipplet}
+		<meta name="Description" content="${config.project.description_long}"/>
+		<meta name="Keywords" content="${user.personal.fullname}, ${user.personal.slug}, ${pydmt.helpers.project.get_name()}, ${', '.join(config.project.keywords)}"/>
 	</head>
 	<body>
-		<h1>Welcome to the <i>${config.project.project_name}</i> web site</h1>
+		<h1>Welcome to the <i>${pydmt.helpers.project.get_name()}</i> web site</h1>
 
-		<p>current version is ${config.version.version_str}</p>
+		<p>current version is ${pydmt.helpers.misc.get_version_str()}</p>
 
 		<h2>Fastlog</h2>
 		<p>
 		TBD
 		</p>
 		<p>
-			To donate to <b>${config.project.project_name}</b> please use the following button:
-		</p>
-		${config.project.project_paypal_donate_button_snipplet}
-		<p>
-			Copyright ${user.personal.personal_fullname}, ${config.project.project_copyright_years}
-			<a href="mailto:${user.personal.personal_email}">${user.personal.personal_email}</a>
+			Copyright ${user.personal.fullname} © ${pydmt.helpers.signature.get_copyright_years_long()}
+			<a href="mailto:${user.personal.email}">${user.personal.email}</a>
 		</p>
 	</body>
 </html>

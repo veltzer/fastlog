@@ -4,41 +4,39 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>fastlog</title>
 		<link rel="shortcut icon" href="../static/favicon.ico"/>
-		<meta name="Description" content="Fastlog is a C/C++ library for fast/realtime logging"/>
+		<meta name="Description" content="
+Fast log is a fast system logger, faster than syslog or file based.
+It is designed for Linux based, user space, high performance, real time
+systems. Have a look at doc/DESIGN.txt for more info.
+
+Some of the goals of the project:
+---------------------------------
+* do utilities for real time logging and performance monitoring on linux.
+- check that TSC is synchronized between CPUS.
+- tools for measuring performance via TSC.
+* syslog logger which matches the syslog API but which is tuned for real time
+(stores all logs in RAM).
+It guarantees order between logs and can add TSC to logs.
+* a utility to recover the log from a coredump of a failed process that used the
+logger (Yay!).
+* fast log library which logs everything in preallocated RAM and possibly
+a user space tool to peek into that RAM.
+It gives you an API to clear the log so that it doesn"t become congested.
+* maybe a kernel module to give you contiguous space to log to?
+"/>
 		<meta name="Keywords" content="Mark Veltzer, veltzer, fastlog, realtime, rt, logging, syslog, syslog-ng, rsyslog, fastlog"/>
-		<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");
-
-ga("create", "UA-80897396-1", "auto");
-ga("send", "pageview");
-
-</script>
 	</head>
 	<body>
 		<h1>Welcome to the <i>fastlog</i> web site</h1>
 
 		<p>current version is 0.0.1</p>
 
-		<h2>Fastlog...</h2>
+		<h2>Fastlog</h2>
 		<p>
-		This is a paragraph about fastlog.
+		TBD
 		</p>
 		<p>
-			To donate to <b>fastlog</b> please use the following button:
-		</p>
-		<form action="https://www.paypal.com/cgi-bin/webscr"
-    method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="UA-80897396-1">
-<input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" name="submit"
-alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-		<p>
-			Copyright Mark Veltzer, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022
+			Copyright Mark Veltzer © 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
 			<a href="mailto:mark.veltzer@gmail.com">mark.veltzer@gmail.com</a>
 		</p>
 	</body>
