@@ -17,9 +17,9 @@
 
 		<p>current version is ${config.version.version_str}</p>
 
-		<h2>Fastlog...</h2>
+		<h2>Fastlog</h2>
 		<p>
-		This is a paragraph about fastlog.
+		TBD
 		</p>
 		<p>
 			To donate to <b>${config.project.project_name}</b> please use the following button:
