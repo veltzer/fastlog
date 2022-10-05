@@ -1,2 +1,4 @@
 - the kernel ringbuffer design:
 	Documentation/trace/ring-buffer-design.txt
+- similar project
+	https://github.com/goatshriek/stumpless
