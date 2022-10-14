@@ -1,4 +1,4 @@
 packages=[
-    'doxygen',
-    'libcpufreq-dev',
+    "doxygen",
+    "libcpufreq-dev",
 ]
