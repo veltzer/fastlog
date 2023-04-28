@@ -1,3 +1,4 @@
+name = "fastlog"
 description_short="Fastlog is a C/C++ library for fast/realtime logging"
 description_long=f"""
 Fast log is a fast system logger, faster than syslog or file based.
