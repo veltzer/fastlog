@@ -6,7 +6,7 @@ description: Fastlog is a C/C++ library for fast/realtime logging
 
 website: https://veltzer.github.io/fastlog
 
-## build
+## Build
 
 ![build](https://github.com/veltzer/fastlog/workflows/build/badge.svg)
 
@@ -31,7 +31,7 @@ It gives you an API to clear the log so that it doesn"t become congested.
 * maybe a kernel module to give you contiguous space to log to?
 
 
-## contact
+## Contact
 
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
