@@ -43,10 +43,6 @@ ifeq ($(DO_DEBUG),1)
 BASE_FLAGS:=$(BASE_FLAGS) -g2
 endif # DO_DEBUG
 
-ifeq ($(DO_ALLDEP),1)
-.EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
-endif # DO_ALLDEP
-
 ALL+=$(LIB) $(BIN)
 
 #########
@@ -99,3 +95,10 @@ $(BIN): $(OUT)/bin/%: test/%.c $(LIB)
 	$(info doing [$@])
 	$(Q)mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -o $@ $< $(BINLD)
+
+##########
+# alldep #
+##########
+ifeq ($(DO_ALLDEP),1)
+.EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
+endif # DO_ALLDEP
