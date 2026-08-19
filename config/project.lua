@@ -1,6 +1,6 @@
-name = "fastlog"
-description_short="Fastlog is a C/C++ library for fast/realtime logging"
-description_long=f"""
+NAME = "fastlog"
+DESCRIPTION_SHORT = "Fastlog is a C/C++ library for fast/realtime logging"
+DESCRIPTION_LONG = [[
 Fast log is a fast system logger, faster than syslog or file based.
 It is designed for Linux based, user space, high performance, real time
 systems. Have a look at doc/DESIGN.txt for more info.
@@ -19,14 +19,6 @@ logger (Yay!).
 a user space tool to peek into that RAM.
 It gives you an API to clear the log so that it doesn"t become congested.
 * maybe a kernel module to give you contiguous space to log to?
-"""
-keywords=[
-    "realtime",
-    "rt",
-    "logging",
-    "syslog",
-    "syslog-ng",
-    "rsyslog",
-    "fastlog",
-]
-license_type="GPLV3"
+]]
+LICENSE_TYPE = "GPLV3"
+KEYWORDS = {"realtime", "rt", "logging", "syslog", "syslog-ng", "rsyslog", "fastlog"}
