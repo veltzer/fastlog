@@ -20,5 +20,10 @@ dep_inputs = [
 # exact sequence. The .c/.h sources are the inputs so a change retriggers it.
 [processor.explicit.fastlog]
 command = "scripts/build_fastlog.py"
-src_dirs = ["src", "test"]
-src_extensions = [".c", ".h"]
+input_globs = ["src/**/*.c", "src/**/*.h", "test/*.c"]
+output_files = [
+    "out/lib/libfastlog.so",
+    "out/bin/fastlog_test_basic",
+    "out/bin/fastlog_test_speed",
+    "out/bin/fastlog_test_crash",
+]
