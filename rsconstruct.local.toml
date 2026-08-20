@@ -12,3 +12,13 @@ dep_inputs = [
     "config/personal.lua",
     "config/version.lua",
 ]
+
+# The Makefile compiled src/**/*.c (-fpic) into out/lib/libfastlog.so, then
+# built each test/*.c against that library (-lfastlog -lpthread). That is a
+# multi-object shared-library link with a lib-before-tests order, which the
+# single-file C processor cannot express, so scripts/build_fastlog.py runs the
+# exact sequence. The .c/.h sources are the inputs so a change retriggers it.
+[processor.explicit.fastlog]
+command = "scripts/build_fastlog.py"
+src_dirs = ["src", "test"]
+src_extensions = [".c", ".h"]
