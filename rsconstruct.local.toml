@@ -27,3 +27,9 @@ output_files = [
     "out/bin/fastlog_test_speed",
     "out/bin/fastlog_test_crash",
 ]
+
+# us_helper.h includes cpufreq.h, provided by libcpufreq-dev.
+[dependencies]
+system = [
+    "libcpufreq-dev",
+]
