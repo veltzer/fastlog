@@ -77,11 +77,11 @@ void* func(void* arg) {
 
 	test="standard syslog";
 	openlog(myname, LOG_PID, LOG_USER);
-	printf("doing %d syslogs\n",number);
+	printf("doing %u syslogs\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		syslog(LOG_ERR,"this is a message %d", i);
+		syslog(LOG_ERR,"this is a message %u", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -94,11 +94,11 @@ void* func(void* arg) {
 	test="regular file operations (nonbuffreed, flushed, synchroneous)";
 	FILE* f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
-	printf("doing %d writes\n",number);
+	printf("doing %u writes\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fprintf(f,"this is a message %d", i);
+		fprintf(f,"this is a message %u", i);
 		fflush(f);
 	}
 	// end timing...
@@ -112,11 +112,11 @@ void* func(void* arg) {
 	test="regular file operations (buffered, non flushed, non synchronized)";
 	f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
-	printf("doing %d writes\n",number);
+	printf("doing %u writes\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fprintf(f,"this is a message %d", i);
+		fprintf(f,"this is a message %u", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -127,12 +127,12 @@ void* func(void* arg) {
 	sleep(1);
 
 	// now lets measure how long it would take to memcpy...
-	printf("doing %d fastlog_log\n",number);
+	printf("doing %u fastlog_log\n",number);
 	fastlog_init(NULL);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		fastlog_log("this is a message %d", i);
+		fastlog_log("this is a message %u", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -143,11 +143,11 @@ void* func(void* arg) {
 	sleep(1);
 
 	// now lets measure how long it would take to do nothing (with method call)...
-	printf("doing %d empty (non-inlined) methods\n",number);
+	printf("doing %u empty (non-inlined) methods\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		empty_noinline("this is a message %d", i);
+		empty_noinline("this is a message %u", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);
@@ -155,11 +155,11 @@ void* func(void* arg) {
 	printf("time in micro of one empty (non-inlined) method: %lf\n", micro_diff(&t1,&t2)/(double)number);
 
 	// now lets measure how long it would take to do nothing...
-	printf("doing %d empty (inlined) methods\n",number);
+	printf("doing %u empty (inlined) methods\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
 	for (i = 0; i < number; i++) {
-		empty_inline("this is a message %d", i);
+		empty_inline("this is a message %u", i);
 	}
 	// end timing...
 	gettimeofday(&t2, NULL);

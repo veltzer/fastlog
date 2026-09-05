@@ -49,6 +49,7 @@ typedef struct _fastlog_thread_config {
 	FILE* file;
 } fastlog_thread_config;
 
+// cppcheck-suppress constParameterCallback ; pthread start routine signature
 static void* fastlog_worker(void* vconf) {
 	/*
 	fastlog_thread_config* conf=(fastlog_thread_config*)vconf;
@@ -90,12 +91,16 @@ static inline int _fastlog_config_init(fastlog_config* fc) {
 
 int fastlog_config_init(fastlog_config_t* conf) {
 	fastlog_config* fc=(fastlog_config*)malloc(sizeof(fastlog_config));
+	if(fc==NULL) {
+		perror("malloc");
+		return -1;
+	}
 	_fastlog_config_init(fc);
 	*conf=fc;
 	return 0;
 }
 
-int fastlog_config_destroy(fastlog_config_t* conf) {
+int fastlog_config_destroy(const fastlog_config_t* conf) {
 	fastlog_config* fc=*conf;
 	free(fc);
 	return 0;
@@ -111,8 +116,8 @@ int fastlog_thread_config_init(fastlog_thread_config* conf) {
 
 int fastlog_init(const fastlog_config_t* conf) {
 	fastlog_config* fc;
+	fastlog_config config;
 	if(conf==NULL) {
-		fastlog_config config;
 		_fastlog_config_init(&config);
 		fc=&config;
 	} else {

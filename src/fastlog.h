@@ -23,7 +23,7 @@ typedef void* fastlog_config_t;
  * This will initialize the config so that all options have default values.
  */
 int fastlog_config_init(fastlog_config_t*);
-int fastlog_config_destroy(fastlog_config_t*);
+int fastlog_config_destroy(const fastlog_config_t*);
 
 /*
  * Setters and getters

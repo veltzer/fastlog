@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>{{ project.NAME }}</title>
 		<link rel="shortcut icon" href="../static/favicon.ico"/>
-		<meta name="Description" content="{{ project.DESCRIPTION_LONG }}"/>
+		<meta name="Description" content="{{ project.DESCRIPTION_LONG | escape }}"/>
 		<meta name="Keywords" content="{{ personal.FULLNAME }}, {{ personal.SLUG }}, {{ project.NAME }}, {{ project.KEYWORDS | join(sep=", ") }}"/>
 	</head>
 	<body>
