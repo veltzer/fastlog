@@ -1,4 +1,4 @@
-NAME = "fastlog"
+NAME = "c-fastlog"
 DESCRIPTION_SHORT = "Fastlog is a C/C++ library for fast/realtime logging"
 DESCRIPTION_LONG = [[
 Fast log is a fast system logger, faster than syslog or file based.

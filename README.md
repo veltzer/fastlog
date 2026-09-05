@@ -1,8 +1,8 @@
-# *fastlog* project by Mark Veltzer
+# *c-fastlog* project by Mark Veltzer
 
 description: Fastlog is a C/C++ library for fast/realtime logging
 
-project website: https://veltzer.github.io/fastlog
+project website: https://veltzer.github.io/c-fastlog
 
 author: Mark Veltzer
 
@@ -12,11 +12,11 @@ version: 0.0.1
 
 ## github
 
-![License](https://img.shields.io/github/license/veltzer/fastlog)
+![License](https://img.shields.io/github/license/veltzer/c-fastlog)
 
 ## build
 
-![build](https://github.com/veltzer/fastlog/workflows/build/badge.svg)
+![build](https://github.com/veltzer/c-fastlog/workflows/build/badge.svg)
 
 ## contact me
 
